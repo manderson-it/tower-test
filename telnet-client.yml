@@ -1,0 +1,7 @@
+- name: Ensure telnet client is installed
+  hosts: centos
+  tasks:
+    - name: Install package telnet
+      yum:
+        name: telnet
+        state: present
