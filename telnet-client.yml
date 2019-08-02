@@ -4,4 +4,5 @@
     - name: Install package telnet
       yum:
         name: telnet
+        update_cache: no
         state: present
