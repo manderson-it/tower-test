@@ -1,0 +1,9 @@
+- name: Ensure repoquery is installed
+  hosts: centos
+  tasks:
+    - name: Install package "{{ item }}"
+      yum:
+        name:
+          - repoquery
+        update_cache: no
+        state: present
