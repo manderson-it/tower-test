@@ -4,6 +4,6 @@
     - name: Install package "{{ item }}"
       yum:
         name:
-          - repoquery
+          - yum-utils
         update_cache: no
         state: present
