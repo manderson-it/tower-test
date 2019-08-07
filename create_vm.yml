@@ -1,0 +1,32 @@
+---
+- name: Create new VM
+  hosts: localhost
+  gather_facts: no
+  vars:
+    datacenter_name: cdcug
+    cluster_name: cluster01
+#    vcenter_ip: ""
+#    vcenter_username: ""
+#    vcenter_password: ""
+
+  tasks:
+  - name: Prereq - python packages
+    yum:
+      name: python2-pyvmomi
+      state: present
+      
+  - name: Clone the template
+    vmware_guest:
+      name: marektestvm2
+      template: rhel7-generic
+      annotation: "Marek - CAN BE DELETED AFTER 2019-08-08"
+      hostname: "{{ vcenter_ip }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}"
+      datastore: CDCUG_VMware_mgmt_nfs
+      folder: /marek
+      validate_certs: false
+      state: poweredon
+      wait_for_ip_address: no
