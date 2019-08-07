@@ -1,0 +1,20 @@
+---
+- name: Remove a virtual machine by name
+  hosts: localhost
+  gather_facts: no
+  vars:
+    datacenter_name: cdcug
+    cluster_name: cluster01
+    vcenter_hostname: "{{ lookup('env','VMWARE_HOST') }}"
+    vcenter_username: "{{ lookup('env','VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env','VMWARE_PASSWORD') }}"
+    
+  tasks:
+  - name: Delete virtual machine
+    vmware_guest:
+      hostname: "{{ vcenter_hostname }}"
+      username: "{{ vcenter_username }}"
+      password: "{{ vcenter_password }}"
+      validate_certs: no
+      name: "{{ vmname }}"
+      state: absent
