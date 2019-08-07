@@ -13,6 +13,7 @@
   - name: Prereq - python packages
     yum:
       name: python2-pyvmomi
+      use_backend: yum
       state: present
       
   - name: Clone the template
