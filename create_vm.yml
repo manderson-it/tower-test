@@ -9,13 +9,7 @@
 #    vcenter_username: ""
 #    vcenter_password: ""
 
-  tasks:
-  - name: Prereq - python packages
-    yum:
-      name: python2-pyvmomi
-      use_backend: yum
-      state: present
-      
+  tasks:      
   - name: Clone the template
     vmware_guest:
       name: marektestvm2
