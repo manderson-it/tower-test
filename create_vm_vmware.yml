@@ -35,6 +35,7 @@
       networks:
       - name: "VM Network"
         ip: "10.110.111.183" #ip: "{{ ipaddr }}"
+        netmask: 255.255.255.0 # required parameter
         device_type: vmxnet3
       #- vlan: 119
     #delegate_to: localhost
