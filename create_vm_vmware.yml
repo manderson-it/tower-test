@@ -13,27 +13,28 @@
 #    ipaddr: "{{ lookup('nios_next_ip', '192.168.10.0/24', provider=nios_provider) }}"
 #  delegate_to: localhost
 
-- name: Create new virtual machine on VMware
-  vmware_guest:
-    hostname: "{{ lookup('env','VMWARE_HOST') }}"
-    username: "{{ lookup('env','VMWARE_USER') }}"
-    password: "{{ lookup('env','VMWARE_PASSWORD') }}"
-    name: marektestvm3 # "{{ survey_vm_name }}"
-    template: rhel7-generic # "{{ survery_vm_template }}"
-    annotation: "Optional information for team"
-    datacenter: "{{ datacenter_name }}"
-    cluster: "{{ cluster_name }}" # Is_this_predefined?
-    datastore: "{{ datastore_name }}" # Is_this_predefined?
-    folder: /marek # "{{ survey_vm_folder }}" # Is_this_predefined?
-    validate_certs: false
-    state: poweredon
-    wait_for_ip_address: no
-    hardware:
-      num_cpus: 1 # "{{ survey_vm_num_cpus }}"
-      memory_mb: 4096 # "{{ survey_vm_memory_mb }}"
-    networks:
-    - name: "VM Network"
-      ip: "10.110.111.183" #ip: "{{ ipaddr }}"
-      device_type: vmxnet3
-    #- vlan: 119
-  #delegate_to: localhost
+  tasks:
+  - name: Create new virtual machine on VMware
+    vmware_guest:
+      hostname: "{{ lookup('env','VMWARE_HOST') }}"
+      username: "{{ lookup('env','VMWARE_USER') }}"
+      password: "{{ lookup('env','VMWARE_PASSWORD') }}"
+      name: marektestvm3 # "{{ survey_vm_name }}"
+      template: rhel7-generic # "{{ survery_vm_template }}"
+      annotation: "Optional information for team"
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}" # Is_this_predefined?
+      datastore: "{{ datastore_name }}" # Is_this_predefined?
+      folder: /marek # "{{ survey_vm_folder }}" # Is_this_predefined?
+      validate_certs: false
+      state: poweredon
+      wait_for_ip_address: no
+      hardware:
+        num_cpus: 1 # "{{ survey_vm_num_cpus }}"
+        memory_mb: 4096 # "{{ survey_vm_memory_mb }}"
+      networks:
+      - name: "VM Network"
+        ip: "10.110.111.183" #ip: "{{ ipaddr }}"
+        device_type: vmxnet3
+      #- vlan: 119
+    #delegate_to: localhost
