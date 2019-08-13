@@ -19,8 +19,8 @@
       hostname: "{{ lookup('env','VMWARE_HOST') }}"
       username: "{{ lookup('env','VMWARE_USER') }}"
       password: "{{ lookup('env','VMWARE_PASSWORD') }}"
-      name: marektestvm3 # "{{ survey_vm_name }}"
-      template: rhel7-generic # "{{ survery_vm_template }}"
+      name: marektestvm4 # "{{ survey_vm_name }}"
+      template: centos76-minimal # "{{ survery_vm_template }}"
       annotation: "Optional information for team"
       datacenter: "{{ datacenter_name }}"
       cluster: "{{ cluster_name }}" # Is_this_predefined?
@@ -34,7 +34,7 @@
         memory_mb: 4096 # "{{ survey_vm_memory_mb }}"
       networks:
       - name: "VM Network"
-        ip: "10.110.111.183" #ip: "{{ ipaddr }}"
+        ip: 172.16.42.42 #ip: "{{ ipaddr }}"
         netmask: 255.255.255.0 # required parameter
         device_type: vmxnet3
       #- vlan: 119
