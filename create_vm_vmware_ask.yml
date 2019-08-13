@@ -1,0 +1,35 @@
+---
+- name: Create new VM
+  hosts: localhost
+  gather_facts: no
+  vars:
+    datacenter_name: cdcug
+    cluster_name: cluster01
+    datastore_name: CDCUG_VMware_mgmt_nfs
+
+  tasks:
+  - name: Create new virtual machine on VMware
+    vmware_guest:
+      hostname: "{{ lookup('env','VMWARE_HOST') }}"
+      username: "{{ lookup('env','VMWARE_USER') }}"
+      password: "{{ lookup('env','VMWARE_PASSWORD') }}"
+      name: "{{ survey_vm_name }}"
+      template: rhel7-generic # "{{ survery_vm_template }}"
+      annotation: "Optional information for team"
+      datacenter: "{{ datacenter_name }}"
+      cluster: "{{ cluster_name }}" # Is_this_predefined?
+      datastore: "{{ datastore_name }}" # Is_this_predefined?
+      folder: /marek # "{{ survey_vm_folder }}" # Is_this_predefined?
+      validate_certs: false
+      state: poweredon
+      wait_for_ip_address: no
+      hardware:
+        num_cpus: 1 # "{{ survey_vm_num_cpus }}"
+        memory_mb: 4096 # "{{ survey_vm_memory_mb }}"
+      #networks:
+      #- name: "VM Network"
+      #  ip: "10.110.111.183" #ip: "{{ ipaddr }}"
+      #  netmask: 255.255.255.0 # required parameter
+      #  device_type: vmxnet3
+      #- vlan: 119
+    #delegate_to: localhost
