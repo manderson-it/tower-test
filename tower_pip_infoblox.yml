@@ -1,0 +1,12 @@
+---
+- name: "Install infoblox-client in tower nodes"
+  hosts: localhost
+  become: true
+  gather_facts: false
+  tasks:
+    - name: "Install infoblox-client in Ansible Tower's Python venv"
+      pip:
+        name: "infoblox-client"
+        umask: "0022"
+        virtualenv: "/var/lib/awx/venv/awx"
+        state: "latest"
