@@ -24,8 +24,8 @@
       state: poweredon
       wait_for_ip_address: no
       hardware:
-        num_cpus: 1 # "{{ survey_vm_num_cpus }}"
-        memory_mb: 4096 # "{{ survey_vm_memory_mb }}"
+        num_cpus: "{{ param_vm_num_cpus }}"
+        memory_mb: "{{ param_vm_memory_mb }}"
       #networks:
       #- name: "VM Network"
       #  ip: "10.110.111.183" #ip: "{{ ipaddr }}"
