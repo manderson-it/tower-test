@@ -13,7 +13,7 @@
       hostname: "{{ lookup('env','VMWARE_HOST') }}"
       username: "{{ lookup('env','VMWARE_USER') }}"
       password: "{{ lookup('env','VMWARE_PASSWORD') }}"
-      name: "{{ survey_vm_name }}"
+      name: "{{ param_vm_name }}"
       template: rhel7-generic # "{{ survery_vm_template }}"
       annotation: "Optional information for team"
       datacenter: "{{ datacenter_name }}"
