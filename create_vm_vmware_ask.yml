@@ -6,10 +6,6 @@
     datacenter_name: cdcug
     cluster_name: cluster01
     datastore_name: CDCUG_VMware_mgmt_nfs
-    param_vm_name: ""
-    param_vm_template: ""
-    param_vm_num_cpus: 0
-    param_vm_memory_mb: 0
 
   tasks:
   - name: Create new virtual machine on VMware
