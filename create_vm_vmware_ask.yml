@@ -6,6 +6,10 @@
     datacenter_name: cdcug
     cluster_name: cluster01
     datastore_name: CDCUG_VMware_mgmt_nfs
+    param_vm_name: ""
+    param_vm_template: ""
+    param_vm_num_cpus: 0
+    param_vm_memory_mb: 0
 
   tasks:
   - name: Create new virtual machine on VMware
@@ -14,7 +18,7 @@
       username: "{{ lookup('env','VMWARE_USER') }}"
       password: "{{ lookup('env','VMWARE_PASSWORD') }}"
       name: "{{ param_vm_name }}"
-      template: rhel7-generic # "{{ survery_vm_template }}"
+      template: "{{ param_vm_template }}" # centos76-minimal, rhel7-generic
       annotation: "Optional information for team"
       datacenter: "{{ datacenter_name }}"
       cluster: "{{ cluster_name }}" # Is_this_predefined?
