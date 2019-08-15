@@ -15,21 +15,20 @@
       password: "{{ lookup('env','VMWARE_PASSWORD') }}"
       name: "{{ param_vm_name }}"
       template: "{{ param_vm_template }}" # centos76-minimal, rhel7-generic
-      annotation: "Optional information for team"
+      annotation: "{{ param_vm_annotation }}" # Shows as Notes on VM in vCenter
       datacenter: "{{ datacenter_name }}"
       cluster: "{{ cluster_name }}" # Is_this_predefined?
       datastore: "{{ datastore_name }}" # Is_this_predefined?
-      folder: /marek # "{{ survey_vm_folder }}" # Is_this_predefined?
+      #folder: /marek # "{{ survey_vm_folder }}" # Is_this_predefined?
       validate_certs: false
       state: poweredon
       wait_for_ip_address: no
       hardware:
         num_cpus: "{{ param_vm_num_cpus }}"
         memory_mb: "{{ param_vm_memory_mb }}"
-      #networks:
-      #- name: "VM Network"
+      networks:
+      - name: "{{ param_vm_network_name }}" # default: VM Network
       #  ip: "10.110.111.183" #ip: "{{ ipaddr }}"
       #  netmask: 255.255.255.0 # required parameter
       #  device_type: vmxnet3
-      #- vlan: 119
-    #delegate_to: localhost
+      - vlan: "{{ param_vm_network_vlan }}" # example: 119
