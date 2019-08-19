@@ -1,0 +1,7 @@
+---
+- name: Retire VM
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - retire_vmware_vm_provision
