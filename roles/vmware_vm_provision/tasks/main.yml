@@ -25,7 +25,7 @@
     networks:
     - name: "{{ vmware_vm_network }}" # default: VM Network
       device_type: vmxnet3
-    - vlan: "{{ vmware_vm_vlan }}"
+    #- vlan: "{{ vmware_vm_vlan }}"
     # the next lines belong under networks: - name if activated
     #  ip: "10.110.111.183" #ip: "{{ ipaddr }}"
     #  netmask: 255.255.255.0 # required parameter
