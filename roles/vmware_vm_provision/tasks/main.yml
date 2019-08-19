@@ -1,5 +1,4 @@
 ---
-# What is the correct IP network for a new VM?
 #- name: Get next available IP address from Infoblox DDI
 #  set_fact:
 #    ipaddr: "{{ lookup('nios_next_ip', '192.168.10.0/24', provider=nios_provider) }}"
@@ -10,23 +9,23 @@
     hostname: "{{ vmware_vcenter_hostname }}"
     username: "{{ vmware_vcenter_username }}"
     password: "{{ vmware_vcenter_password }}"
-    name: "{{ param_vm_name }}"
-    template: "{{ param_vm_template }}" # centos76-minimal, rhel7-generic
-    annotation: "{{ param_vm_annotation }}" # Shows as Notes on VM in vCenter
     datacenter: "{{ vmware_vcenter_datacenter }}"
     cluster: "{{ vmware_vcenter_cluster }}" # Is_this_predefined?
     datastore: "{{ vmware_vcenter_datastore }}" # Is_this_predefined?
+    name: "{{ vmware_vm_name }}"
+    template: "{{ vmware_vm_template }}" # centos76-minimal, rhel7-generic
+    annotation: "{{ vmware_vm_annotation }}" # Shows as Notes on VM in vCenter
     folder: "{{ vmware_vm_folder }}" # required
     validate_certs: false
     state: poweredon
     wait_for_ip_address: no
     hardware:
-      num_cpus: "{{ param_vm_num_cpus }}"
-      memory_mb: "{{ param_vm_memory_mb }}"
+      num_cpus: "{{ vmware_vm_num_cpus }}"
+      memory_mb: "{{ vmware_vm_memory_mb }}"
     networks:
-    - name: "{{ param_vm_network_name }}" # default: VM Network
+    - name: "{{ vmware_vm_network }}" # default: VM Network
       device_type: vmxnet3
-    #- vlan: "{{ param_vm_network_vlan }}" # example: 119
+    - vlan: "{{ vmware_vm_vlan }}"
     # the next lines belong under networks: - name if activated
     #  ip: "10.110.111.183" #ip: "{{ ipaddr }}"
     #  netmask: 255.255.255.0 # required parameter

@@ -9,8 +9,14 @@ vmware_vcenter_datastore: "CDCUG_VMware_mgmt_nfs"
 
 # variables specific to a virtual machine
 vmware_vm_name: ""
-vmware_vm_folder: "/marek"
-vmware_guest_network_name: "VM Network"
+vmware_vm_folder: "/" # slash as highest folder level
+vmware_vm_network: "VM Network"
+vmware_vm_template: ""
+vmware_vm_annotation: ""
+vmware_vm_num_cpus: 1
+vmware_vm_memory_mb: 2048
+vmware_vm_vlan: 0 
+
 
 # variables for Infoblox DDI appliance
 nios_provider:
