@@ -5,9 +5,9 @@ This role provisions a virtual machine on VMware.
 ## Prerequisites
 - infoblox-client
 
-The infoblox-client is required on the Ansible machine to use both plugins and modules, see
-(https://docs.ansible.com/ansible/latest/plugins/lookup/nios_next_ip.html) and
-(nios_*, see https://docs.ansible.com/ansible/latest/modules/nios_network_module.html#nios-network-module).
+The infoblox-client is required on the Ansible machine to use both plugins and modules (nios_*), see
+https://docs.ansible.com/ansible/latest/plugins/lookup/nios_next_ip.html and
+https://docs.ansible.com/ansible/latest/modules/nios_network_module.html#nios-network-module.
 
 ## Flow
 
