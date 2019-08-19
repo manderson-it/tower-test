@@ -19,7 +19,7 @@
       datacenter: "{{ datacenter_name }}"
       cluster: "{{ cluster_name }}" # Is_this_predefined?
       datastore: "{{ datastore_name }}" # Is_this_predefined?
-      folder: /marek # "{{ param_vm_folder }}" # required
+      folder: / # "{{ param_vm_folder }}" # required
       validate_certs: false
       state: poweredon
       wait_for_ip_address: no
