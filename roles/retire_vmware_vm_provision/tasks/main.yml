@@ -10,13 +10,14 @@
     username: "{{ vmware_vcenter_username }}"
     password: "{{ vmware_vcenter_password }}"
     datacenter: "{{ vmware_vcenter_datacenter }}"
-    cluster: "{{ vmware_vcenter_cluster }}" # Is_this_predefined?
-    datastore: "{{ vmware_vcenter_datastore }}" # Is_this_predefined?
+    cluster: "{{ vmware_vcenter_cluster }}"
+    datastore: "{{ vmware_vcenter_datastore }}"
     name: "{{ vmware_vm_name }}"
-    template: "{{ vmware_vm_template }}" # centos76-minimal, rhel7-generic
+    template: "{{ vmware_vm_template }}"
     annotation: "{{ vmware_vm_annotation }}" # Shows as Notes on VM in vCenter
     folder: "{{ vmware_vm_folder }}" # required
     validate_certs: false
+    force: yes # required for poweredOn VMs
     state: absent
     wait_for_ip_address: no
     hardware:
