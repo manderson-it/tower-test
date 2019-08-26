@@ -3,6 +3,17 @@
 #  set_fact:
 #    ipaddr: "{{ lookup('nios_next_ip', '192.168.10.0/24', provider=nios_provider) }}"
 #  delegate_to: localhost
+- name: debug var manageiq (see if implicitly available)
+  debug:
+    var: manageiq
+    
+- name: debug var inputs (see if implicitly available)
+  debug:
+    var: inputs
+    
+- name: debug var vminfo (registered on create playbook run)
+  debug:
+    var: vminfo
 
 - name: Retire virtual machine on VMware
   vmware_guest:
