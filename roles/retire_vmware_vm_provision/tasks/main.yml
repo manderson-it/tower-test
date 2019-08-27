@@ -14,6 +14,14 @@
 - name: debug var vminfo (registered on create playbook run)
   debug:
     var: vminfo
+
+- name: debug vars set with set_facts
+  debug:
+    var: ipaddr
+    
+- name: debug vars set with set_facts
+  debug:
+    var: netmask
     
 - name: Get VM IP (could ask Infoblox API with vmware_vm_name as an alternative task)
   vmware_guest_facts:
