@@ -34,10 +34,10 @@
   delegate_to: localhost
   register: vminfo
   
-  - name: debug var flavor
-    debug:
-      var: flavor
+- name: debug var flavor
+  debug:
+    var: flavor
       
-  - name: debug var service_id
-    debug:
-      var: service_id
+- name: debug var service_id
+  debug:
+    var: service_id
