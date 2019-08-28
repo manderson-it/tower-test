@@ -34,6 +34,10 @@
   register: vminfo
   delegate_to: localhost
   
+- name: debug vars set with set_facts
+  debug:
+    var: vminfo
+  
 - name: (simulate) Call Infoblox to release IP
   debug:
     msg: "Calling Infoblox to release IP {{ vminfo.instance.ipv4 }}"
