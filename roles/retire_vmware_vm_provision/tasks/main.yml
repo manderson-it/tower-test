@@ -3,18 +3,6 @@
 #  set_fact:
 #    ipaddr: "{{ lookup('nios_next_ip', '192.168.10.0/24', provider=nios_provider) }}"
 #  delegate_to: localhost
-- name: debug var manageiq (see if implicitly available)
-  debug:
-    var: manageiq
-    
-- name: debug var inputs (see if implicitly available)
-  debug:
-    var: inputs
-    
-- name: debug var vminfo (registered on create playbook run)
-  debug:
-    var: vminfo
-
 - name: debug vars set with set_facts
   debug:
     var: ipaddr
@@ -23,16 +11,16 @@
   debug:
     var: netmask
     
-- name: Get VM IP (could ask Infoblox API with vmware_vm_name as an alternative task)
-  vmware_guest_facts:
-    hostname: "{{ vmware_vcenter_hostname }}"
-    username: "{{ vmware_vcenter_username }}"
-    password: "{{ vmware_vcenter_password }}"
-    datacenter: "{{ vmware_vcenter_datacenter }}"
-    name: "{{ vmware_vm_name }}"
-    validate_certs: false
-  register: vminfo
-  delegate_to: localhost
+#- name: Get VM IP (could ask Infoblox API with vmware_vm_name as an alternative task)
+#  vmware_guest_facts:
+#    hostname: "{{ vmware_vcenter_hostname }}"
+#    username: "{{ vmware_vcenter_username }}"
+#    password: "{{ vmware_vcenter_password }}"
+#    datacenter: "{{ vmware_vcenter_datacenter }}"
+#    name: "{{ vmware_vm_name }}"
+#    validate_certs: false
+#  register: vminfo
+#  delegate_to: localhost
 
 - name: Retire virtual machine on VMware
   vmware_guest:
@@ -43,6 +31,7 @@
     name: "{{ vmware_vm_name }}"
     force: yes # required for VM in poweredOn state
     state: absent
+  register: vminfo
   delegate_to: localhost
   
 - name: (simulate) Call Infoblox to release IP
