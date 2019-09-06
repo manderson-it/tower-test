@@ -1,0 +1,8 @@
+---
+- name: Create multiple VMs
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - vmware_vmnames
+    - vmware_multi_vm_provision
