@@ -28,7 +28,7 @@
       ip: "{{ ipaddr }}"
       netmask: "{{ netmask }}"
   delegate_to: localhost
-  with_items: {{ vmnames }}
+  with_items: "{{ vmware_vm_names }}"
   register: vminfo
   
 - name: debug var flavor

@@ -1,7 +1,7 @@
 ---
 - name: Generating VM name(s)
   set_fact:
-    vm_names: "{{ vmware_vm_name + [ item ] }}"
+    vmware_vm_names: "{{ vmware_vm_name + [ item ] }}"
   with_sequence: start=1 end="{{ vmware_vm_num }}"
 
 #- name: Generating VM name(s)
@@ -22,4 +22,4 @@
 
 - name: Log item.instance.ipv4
   debug:
-    var: vm_names
+    var: vmware_vm_names
