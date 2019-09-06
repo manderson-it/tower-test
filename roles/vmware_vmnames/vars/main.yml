@@ -2,3 +2,5 @@
 vmware_vm_names: []
 vmware_vm_num: 1
 
+# The name provided from the Cloudforms Service Dialog gets a one digit suffix
+name_format: "{{ vmware_vm_name }}%1d"

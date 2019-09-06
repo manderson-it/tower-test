@@ -1,8 +1,8 @@
 ---
 - name: Generating VM name(s)
   set_fact:
-    vmware_vm_names: "{{ vmware_vm_name + [ item ] }}"
-  with_sequence: start=1 end="{{ vmware_vm_num }}"
+    vmware_vm_names: "{{ vmware_vm_names + [ item ] }}"
+  with_sequence: start=1 end="{{ vmware_vm_num }} format="{{ name_format }}"
 
 #- name: Generating VM name(s)
 #  set_fact:
