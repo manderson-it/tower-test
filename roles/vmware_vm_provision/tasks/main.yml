@@ -6,7 +6,7 @@
 - name: (simulating) Get next available IP address from Infoblox
   set_fact:
     ipaddr: '172.16.42.42'
-    ipaddrcidr: '172.16.42.0/24'
+    ipaddrcidr: '172.16.42.0/29'
 
 - name: Create new virtual machine on VMware
   vmware_guest:
