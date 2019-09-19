@@ -20,6 +20,6 @@
 #    vm_names: "{{ vm_names + [ vm_name ] }}"
 #  when: vm_name is defined
 
-- name: Log item.instance.ipv4
+- name: debug - list of names for virtual machines
   debug:
     var: vmware_vm_names

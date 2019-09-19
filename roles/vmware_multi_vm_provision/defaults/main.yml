@@ -10,11 +10,11 @@ vmware_vcenter_datastore: ""
 # variables specific to a virtual machine
 vmware_vm_name: ""
 vmware_vm_folder: "/" # slash as highest folder level
-vmware_vm_network: "VM Network"
 vmware_vm_template: ""
 vmware_vm_annotation: ""
 vmware_vm_num_cpus: 1
 vmware_vm_memory_mb: 2048
+vmware_vm_network: "VM Network"
 
 # variables for Infoblox DDI appliance
 nios_provider:
