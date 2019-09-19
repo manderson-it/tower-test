@@ -1,7 +1,9 @@
 ---
 - name: (simulating) Get next available IP address from Infoblox
   set_fact:
-    ipaddr: '172.16.42.42'
+    ipaddr:
+      - '172.16.42.42'
+      - '172.16.43.43'
     netmask: '255.255.255.0'
 
 - name: Create multiple virtual machines on VMware
@@ -12,7 +14,7 @@
     datacenter: "{{ vmware_vcenter_datacenter }}"
     cluster: "{{ vmware_vcenter_cluster }}"
     datastore: "{{ vmware_vcenter_datastore }}"
-    name: "{{ item }}"
+    name: "{{ item.0 }}"
     template: "{{ vmware_vm_template }}" # centos76-minimal, rhel7-generic
     annotation: "{{ vmware_vm_annotation }}" # Shows as Notes on VM in vCenter
     folder: "{{ vmware_vm_folder }}" # required
@@ -25,10 +27,13 @@
     networks:
     - name: "{{ vmware_vm_network }}" # default: VM Network
       device_type: vmxnet3
-      ip: "{{ ipaddr }}"
+      ip: "{{ item.1 }}"
       netmask: "{{ netmask }}"
   delegate_to: localhost
-  with_items: "{{ vmware_vm_names }}"
+  #with_items: "{{ vmware_vm_names }}"
+  with_together:
+    - "{{ vmware_vm_names }}"
+    - "{{ ipaddr }}"
   register: vminfo
   
 - name: debug var flavor

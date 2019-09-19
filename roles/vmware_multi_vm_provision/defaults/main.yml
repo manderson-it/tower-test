@@ -21,3 +21,8 @@ nios_provider:
   host: "{{ lookup('env','INFOBLOX_HOST') }}"
   username: "{{ lookup('env','INFOBLOX_USERNAME') }}"
   password: "{{ lookup('env','INFOBLOX_PASSWORD') }}"
+
+#ipaddr:
+#  - '172.16.42.42'
+#  - '172.16.43.43'
+#netmask: '255.255.255.0'
