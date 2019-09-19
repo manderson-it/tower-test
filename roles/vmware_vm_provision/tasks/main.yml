@@ -6,7 +6,7 @@
 - name: (simulating) Get next available IP address from Infoblox
   set_fact:
     ipaddr: '172.16.42.42'
-    netmask: '255.255.255.0'
+    ipaddrcidr: '172.16.42.0/29'
 
 - name: Create new virtual machine on VMware
   vmware_guest:
@@ -30,14 +30,14 @@
     - name: "{{ vmware_vm_network }}" # default: VM Network
       device_type: vmxnet3
       ip: "{{ ipaddr }}"
-      netmask: "{{ netmask }}"
+      netmask: "{{ ipaddrcidr | ipaddr('netmask') }}"
   delegate_to: localhost
   register: vminfo
-  
-- name: debug var flavor
-  debug:
-    var: flavor
       
 - name: debug var service_id
   debug:
     var: service_id
+    
+- name: debug ipaddrcidr
+  debug:
+    var: "{{ ipaddrcidr | ipaddr('netmask') }}"
