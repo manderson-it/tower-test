@@ -1,0 +1,20 @@
+---
+- name: Test Servicenow integration
+  hosts: all
+  gather_facts: false
+  vars:
+    snow_instance: dev92794
+    snow_user: admin
+    snow_pw: ""
+    snow_chgtask: CTASK0010001
+
+  tasks:
+  - name: Update a change task (within a change request)
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      instance: "{{ snow_instance }}"
+      number: "{{ snow_chgtask }}"
+      state: present
+      data:
+        work_notes: "Updated from Ansible."
