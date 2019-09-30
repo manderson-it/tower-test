@@ -1,0 +1,64 @@
+---
+- name: Test Servicenow integration
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars:
+    snow_url: "https://dev92794.service-now.com"
+    snow_api_create_chgreq: "/api/sn_chg_rest/v1/change/normal"
+    snow_api_get_chgreq: "/api/sn_chg_rest/v1/change/normal?sysparm_query=number="
+    snow_instance: dev92794
+    snow_user: admin
+    snow_pw: ""
+    #snow_chgtask: CTASK0010001 # NON-unique identifier
+    snow_chgtask: CTASK0010003 # NON-unique identifier (but only once in my dev instance)
+    snow_chgreq: CHG0040001 # unique identifier
+
+  tasks:
+  # works
+#  - name: Create a new change request
+#    uri:
+#      url: "{{ snow_url+snow_api_create_chgreq }}"
+#      user: "{{ snow_user }}"
+#      password: "{{ snow_pw }}"
+#      method: POST
+#      validate_certs: yes
+#      force_basic_auth: yes
+#      follow_redirects: all
+#      status_code: 200
+#    register: uri_chgreq
+#    tags: uri
+  - name: Get a change request
+    uri:
+      url: "{{ snow_url+snow_api_get_chgreq+snow_chgreq }}"
+      user: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      method: GET
+      validate_certs: yes
+      force_basic_auth: yes
+      follow_redirects: all
+      status_code: 200
+    register: uri_chgreq
+    tags: uri
+
+  - name: debug - get a change request
+    debug:
+      var: uri_chgreq
+    tags: uri
+
+# Add Rescue tasks and Handlers here, for example
+#    rescue:
+#      - name: update ticket status with failure
+#        uri:
+#          url: {{ playbook var for defined servicenow API URL }}
+#          method: POST
+#          user: "{{ playbook var for servicenow userid }}"
+#          password: "{{ playbook var for servicenow pw }}"
+#          body: '{ "number":"{{ chgnumber }}","success":"0","close_code":"unsuccessful","close_notes":"failed" }'
+#          body_format: json
+#          force_basic_auth: yes
+#          follow_redirects: all
+#          status_code: 200
+#      - debug:
+#          msg: "rescue task complete"
+
