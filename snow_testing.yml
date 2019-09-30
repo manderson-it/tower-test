@@ -1,7 +1,8 @@
 ---
 - name: Test Servicenow integration
-  hosts: all
-  gather_facts: false
+  hosts: localhost
+  connection: local
+  gather_facts: true
   vars:
     snow_instance: dev92794
     snow_user: admin
@@ -17,4 +18,4 @@
       number: "{{ snow_chgtask }}"
       state: present
       data:
-        work_notes: "Updated from Ansible."
+        work_notes: "Updated from Ansible {{ ansible_date_time.iso8601 }}"
