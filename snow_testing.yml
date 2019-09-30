@@ -8,14 +8,35 @@
     snow_user: admin
     snow_pw: ""
     snow_chgtask: CTASK0010001
+    snow_chgreq: CHG0040001
 
   tasks:
+  - name: Create a new change request
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      instance: "{{ snow_instance }}"
+      state: present
+      table: change_request
+      data:
+        short_description: "This is a test change_request created by Ansible on {{ ansible_date_time.iso8601 }}"
+    register: chgreq_created
+
+  - name: debug - newly created change request
+    debug:
+      var: chgreq_created
+
   - name: Update a change task (within a change request)
     snow_record:
       username: "{{ snow_user }}"
       password: "{{ snow_pw }}"
       instance: "{{ snow_instance }}"
-      number: "{{ snow_chgtask }}"
+      number: "{{ snow_chgreq }}"
+      table: change_request
       state: present
-      data:
-        work_notes: "Updated from Ansible {{ ansible_date_time.iso8601 }}"
+    register: chgreq
+
+  - name: debug - chgreq data (does it have chgtask as elements)
+    debug:
+      var: chgreq.record
+
