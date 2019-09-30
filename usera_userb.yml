@@ -1,0 +1,8 @@
+- name: Login with usera and run task as userb
+  hosts: centos
+  tasks:
+    - name: sudo usera to userb and run command as userb
+      command: whoami
+      become: yes
+      become_user: userb
+      
