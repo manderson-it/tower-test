@@ -1,10 +1,10 @@
 ---
-- name: (simulating) Get next available IP address from Infoblox
-  set_fact:
-    ipaddr:
-      - '172.16.42.42'
-      - '172.16.43.43'
-    netmask: '255.255.255.0'
+#- name: (simulating) Get next available IP address from Infoblox
+#  set_fact:
+#    ipaddr:
+#      - '172.16.42.42'
+#      - '172.16.43.43'
+#    netmask: '255.255.255.0'
 
 - name: Retire multiple virtual machines on VMware
   vmware_guest:
@@ -12,33 +12,15 @@
     username: "{{ vmware_vcenter_username }}"
     password: "{{ vmware_vcenter_password }}"
     datacenter: "{{ vmware_vcenter_datacenter }}"
-    cluster: "{{ vmware_vcenter_cluster }}"
-    datastore: "{{ vmware_vcenter_datastore }}"
     name: "{{ item.0 }}"
-    template: "{{ vmware_vm_template }}" # centos76-minimal, rhel7-generic
-    annotation: "{{ vmware_vm_annotation }}" # Shows as Notes on VM in vCenter
-    folder: "{{ vmware_vm_folder }}" # required
     validate_certs: false
-    state: poweredoff
-    wait_for_ip_address: no
-    hardware:
-      num_cpus: "{{ vmware_vm_num_cpus }}"
-      memory_mb: "{{ vmware_vm_memory_mb }}"
-    networks:
-    - name: "{{ vmware_vm_network }}" # default: VM Network
-      device_type: vmxnet3
-      ip: "{{ item.1 }}"
-      netmask: "{{ netmask }}"
+    force: yes # required for VM in poweredOn state
+    state: absent
   delegate_to: localhost
   with_together:
     - "{{ vmware_vm_names }}"
     - "{{ ipaddr }}"
   register: vminfo
-  
-- name: debug var flavor
-  debug:
-    var: flavor
-      
-- name: debug var service_id
-  debug:
-    var: service_id
+ 
+- name: (simulate) release IP addresses from Infoblox
+  debug: msg="Releasing IP addresses from Infoblox"
