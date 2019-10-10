@@ -1,10 +1,10 @@
 ---
-#- name: (simulating) Get next available IP address from Infoblox
-#  set_fact:
-#    ipaddr:
-#      - '172.16.42.42'
-#      - '172.16.43.43'
-#    netmask: '255.255.255.0'
+- name: (simulating) Get next available IP address from Infoblox
+  set_fact:
+    ipaddr:
+      - '172.16.42.42'
+      - '172.16.43.43'
+    netmask: '255.255.255.0'
 
 - name: Retire multiple virtual machines on VMware
   vmware_guest:
