@@ -4,7 +4,7 @@
   connection: local
   gather_facts: true
   vars:
-    snow_instance: dev92794
+    snow_instance: dev60536
     snow_user: admin
     snow_pw: ""
     #snow_chgtask: CTASK0010001 # NON-unique identifier
