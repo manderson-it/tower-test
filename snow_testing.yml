@@ -3,18 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: true
-<<<<<<< HEAD
   vars_files:
     - vars/snow_vars.yml
-=======
-  vars:
-    snow_instance: dev60536
-    snow_user: admin
-    snow_pw: ""
-    #snow_chgtask: CTASK0010001 # NON-unique identifier
-    snow_chgtask: CTASK0010003 # NON-unique identifier (but only once in my dev instance)
-    snow_chgreq: CHG0040001 # unique identifier
->>>>>>> 616dc154ed9f503bb12f0bd619becd70317219a5
 
   tasks:
   # works
