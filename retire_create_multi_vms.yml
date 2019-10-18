@@ -1,0 +1,8 @@
+---
+- name: Retire multiple VMs
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - vmware_vmnames
+    - retire_vmware_multi_vm_provision

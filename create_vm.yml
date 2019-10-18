@@ -1,7 +1,7 @@
 ---
 - name: Create new VM
   hosts: localhost
-  gather_facts: no
+  gather_facts: true
   vars:
     datacenter_name: cdcug
     cluster_name: cluster01
@@ -12,9 +12,9 @@
   tasks:      
   - name: Clone the template
     vmware_guest:
-      name: marektestvm2
-      template: rhel7-generic
-      annotation: "Marek - CAN BE DELETED AFTER 2019-08-08"
+      name: test_{{ ansible_date_time.date }}"
+      template: centos76-minimal
+      annotation: "Marek - CAN BE DELETED AFTER 2019-10-04"
       hostname: "{{ lookup('env','VMWARE_HOST') }}"
       username: "{{ lookup('env','VMWARE_USER') }}"
       password: "{{ lookup('env','VMWARE_PASSWORD') }}"

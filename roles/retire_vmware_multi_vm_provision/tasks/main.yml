@@ -1,0 +1,26 @@
+---
+- name: (simulating) Get next available IP address from Infoblox
+  set_fact:
+    ipaddr:
+      - '172.16.42.42'
+      - '172.16.43.43'
+    netmask: '255.255.255.0'
+
+- name: Retire multiple virtual machines on VMware
+  vmware_guest:
+    hostname: "{{ vmware_vcenter_hostname }}"
+    username: "{{ vmware_vcenter_username }}"
+    password: "{{ vmware_vcenter_password }}"
+    datacenter: "{{ vmware_vcenter_datacenter }}"
+    name: "{{ item.0 }}"
+    validate_certs: false
+    force: yes # required for VM in poweredOn state
+    state: absent
+  delegate_to: localhost
+  with_together:
+    - "{{ vmware_vm_names }}"
+    - "{{ ipaddr }}"
+  register: vminfo
+ 
+- name: (simulate) release IP addresses from Infoblox
+  debug: msg="Releasing IP addresses from Infoblox"
