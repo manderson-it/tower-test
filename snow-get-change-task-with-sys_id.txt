@@ -1,0 +1,234 @@
+ansible-playbook 2.8.2
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/ma/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.7/site-packages/ansible
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.7.4 (default, Jul  9 2019, 16:32:37) [GCC 9.1.1 20190503 (Red Hat 9.1.1-1)]
+Using /etc/ansible/ansible.cfg as config file
+
+PLAYBOOK: snow_get_change_task.yml ***********************************************************************************************************************
+1 plays in snow_get_change_task.yml
+
+PLAY [Test Servicenow integration] ***********************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************
+task path: /home/ma/gitrepos/tower-test/snow_get_change_task.yml:2
+ok: [localhost]
+META: ran handlers
+
+TASK [Get existing change task by CTASK number (typically NON-unique!!!)] ********************************************************************************
+task path: /home/ma/gitrepos/tower-test/snow_get_change_task.yml:14
+changed: [localhost] => {"changed": true, "instance": "dev60536", "lookup_field": "number", "number": "CTASK0010003", "record": {"active": "true", "activity_due": "", "additional_assignee_list": "", "approval": "not requested", "approval_history": "", "approval_set": "", "assigned_to": {"link": "https://dev60536.service-now.com/api/now/table/sys_user/f298d2d2c611227b0106c6be7f154bc8", "value": "f298d2d2c611227b0106c6be7f154bc8"}, "assignment_group": "", "business_duration": "", "business_service": "", "calendar_duration": "", "change_request": {"link": "https://dev60536.service-now.com/api/now/table/change_request/a9e9c33dc61122760072455df62663d2", "value": "a9e9c33dc61122760072455df62663d2"}, "change_task_type": "", "close_code": "", "close_notes": "", "closed_at": "", "closed_by": "", "cmdb_ci": {"link": "https://dev60536.service-now.com/api/now/table/cmdb_ci/a9c68505c6112276017ee7d52f43e7c6", "value": "a9c68505c6112276017ee7d52f43e7c6"}, "comments": "", "comments_and_work_notes": "", "company": "", "contact_type": "phone", "contract": "", "correlation_display": "", "correlation_id": "", "created_from": "", "delivery_plan": "", "delivery_task": "", "description": "Install Oracle 10g onto SD1", "due_date": "2019-04-23 02:00:00", "escalation": "0", "expected_start": "", "follow_up": "", "group_list": "", "impact": "3", "knowledge": "false", "location": "", "made_sla": "false", "number": "CTASK0010003", "on_hold": "false", "on_hold_reason": "", "opened_at": "2019-04-17 22:21:28", "opened_by": {"link": "https://dev60536.service-now.com/api/now/table/sys_user/6816f79cc0a8016401c5a33be04be441", "value": "6816f79cc0a8016401c5a33be04be441"}, "order": "", "parent": "", "planned_end_date": "", "planned_start_date": "", "priority": "2", "reassignment_count": "", "service_offering": "", "short_description": "Install Oracle 10g onto SD1", "sla_due": "", "state": "1", "sys_class_name": "change_task", "sys_created_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER", "sys_created_on": "2019-04-17 22:21:28", "sys_domain": {"link": "https://dev60536.service-now.com/api/now/table/sys_user_group/global", "value": "global"}, "sys_domain_path": "/", "sys_id": "a9f1ab97c611227600a920ad739997ea", "sys_mod_count": "0", "sys_tags": "", "sys_updated_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER", "sys_updated_on": "2019-04-17 22:21:28", "time_worked": "", "upon_approval": "", "upon_reject": "", "urgency": "3", "user_input": "", "watch_list": "", "work_end": "", "work_notes": "", "work_notes_list": "", "work_start": ""}, "table": "change_task"}
+
+TASK [debug - chgtask data] ******************************************************************************************************************************
+task path: /home/ma/gitrepos/tower-test/snow_get_change_task.yml:28
+ok: [localhost] => {
+    "chgtask": {
+        "changed": true,
+        "failed": false,
+        "instance": "dev60536",
+        "lookup_field": "number",
+        "number": "CTASK0010003",
+        "record": {
+            "active": "true",
+            "activity_due": "",
+            "additional_assignee_list": "",
+            "approval": "not requested",
+            "approval_history": "",
+            "approval_set": "",
+            "assigned_to": {
+                "link": "https://dev60536.service-now.com/api/now/table/sys_user/f298d2d2c611227b0106c6be7f154bc8",
+                "value": "f298d2d2c611227b0106c6be7f154bc8"
+            },
+            "assignment_group": "",
+            "business_duration": "",
+            "business_service": "",
+            "calendar_duration": "",
+            "change_request": {
+                "link": "https://dev60536.service-now.com/api/now/table/change_request/a9e9c33dc61122760072455df62663d2",
+                "value": "a9e9c33dc61122760072455df62663d2"
+            },
+            "change_task_type": "",
+            "close_code": "",
+            "close_notes": "",
+            "closed_at": "",
+            "closed_by": "",
+            "cmdb_ci": {
+                "link": "https://dev60536.service-now.com/api/now/table/cmdb_ci/a9c68505c6112276017ee7d52f43e7c6",
+                "value": "a9c68505c6112276017ee7d52f43e7c6"
+            },
+            "comments": "",
+            "comments_and_work_notes": "",
+            "company": "",
+            "contact_type": "phone",
+            "contract": "",
+            "correlation_display": "",
+            "correlation_id": "",
+            "created_from": "",
+            "delivery_plan": "",
+            "delivery_task": "",
+            "description": "Install Oracle 10g onto SD1",
+            "due_date": "2019-04-23 02:00:00",
+            "escalation": "0",
+            "expected_start": "",
+            "follow_up": "",
+            "group_list": "",
+            "impact": "3",
+            "knowledge": "false",
+            "location": "",
+            "made_sla": "false",
+            "number": "CTASK0010003",
+            "on_hold": "false",
+            "on_hold_reason": "",
+            "opened_at": "2019-04-17 22:21:28",
+            "opened_by": {
+                "link": "https://dev60536.service-now.com/api/now/table/sys_user/6816f79cc0a8016401c5a33be04be441",
+                "value": "6816f79cc0a8016401c5a33be04be441"
+            },
+            "order": "",
+            "parent": "",
+            "planned_end_date": "",
+            "planned_start_date": "",
+            "priority": "2",
+            "reassignment_count": "",
+            "service_offering": "",
+            "short_description": "Install Oracle 10g onto SD1",
+            "sla_due": "",
+            "state": "1",
+            "sys_class_name": "change_task",
+            "sys_created_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "sys_created_on": "2019-04-17 22:21:28",
+            "sys_domain": {
+                "link": "https://dev60536.service-now.com/api/now/table/sys_user_group/global",
+                "value": "global"
+            },
+            "sys_domain_path": "/",
+            "sys_id": "a9f1ab97c611227600a920ad739997ea",
+            "sys_mod_count": "0",
+            "sys_tags": "",
+            "sys_updated_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "sys_updated_on": "2019-04-17 22:21:28",
+            "time_worked": "",
+            "upon_approval": "",
+            "upon_reject": "",
+            "urgency": "3",
+            "user_input": "",
+            "watch_list": "",
+            "work_end": "",
+            "work_notes": "",
+            "work_notes_list": "",
+            "work_start": ""
+        },
+        "table": "change_task"
+    }
+}
+
+TASK [Get existing change task by its sysid (unique)] ****************************************************************************************************
+task path: /home/ma/gitrepos/tower-test/snow_get_change_task.yml:32
+changed: [localhost] => {"changed": true, "instance": "dev60536", "lookup_field": "sys_id", "number": "634a47eddb200010f5940181ca961902", "record": {"active": "true", "activity_due": "", "additional_assignee_list": "", "approval": "not requested", "approval_history": "", "approval_set": "", "assigned_to": "", "assignment_group": "", "business_duration": "", "business_service": "", "calendar_duration": "", "change_request": {"link": "https://dev60536.service-now.com/api/now/table/change_request/2de5121347c12200e0ef563dbb9a71eb", "value": "2de5121347c12200e0ef563dbb9a71eb"}, "change_task_type": "planning", "close_code": "", "close_notes": "", "closed_at": "", "closed_by": "", "cmdb_ci": "", "comments": "", "comments_and_work_notes": "", "company": "", "contact_type": "", "contract": "", "correlation_display": "", "correlation_id": "", "created_from": "manual", "delivery_plan": "", "delivery_task": "", "description": "Description for my Change Task", "due_date": "", "escalation": "0", "expected_start": "", "follow_up": "", "group_list": "", "impact": "3", "knowledge": "false", "location": "", "made_sla": "true", "number": "CTASK0010001", "on_hold": "false", "on_hold_reason": "", "opened_at": "2019-10-17 14:04:38", "opened_by": {"link": "https://dev60536.service-now.com/api/now/table/sys_user/6816f79cc0a8016401c5a33be04be441", "value": "6816f79cc0a8016401c5a33be04be441"}, "order": "", "parent": {"link": "https://dev60536.service-now.com/api/now/table/task/2de5121347c12200e0ef563dbb9a71eb", "value": "2de5121347c12200e0ef563dbb9a71eb"}, "planned_end_date": "", "planned_start_date": "", "priority": "4", "reassignment_count": "0", "service_offering": "", "short_description": "Short description for my Change Task", "sla_due": "", "state": "1", "sys_class_name": "change_task", "sys_created_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER", "sys_created_on": "2019-10-17 14:05:28", "sys_domain": {"link": "https://dev60536.service-now.com/api/now/table/sys_user_group/global", "value": "global"}, "sys_domain_path": "/", "sys_id": "634a47eddb200010f5940181ca961902", "sys_mod_count": "0", "sys_tags": "", "sys_updated_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER", "sys_updated_on": "2019-10-17 14:05:28", "time_worked": "", "upon_approval": "proceed", "upon_reject": "cancel", "urgency": "3", "user_input": "", "watch_list": "", "work_end": "", "work_notes": "", "work_notes_list": "", "work_start": ""}, "table": "change_task"}
+
+TASK [debug - chgtask data] ******************************************************************************************************************************
+task path: /home/ma/gitrepos/tower-test/snow_get_change_task.yml:46
+ok: [localhost] => {
+    "chgtask": {
+        "changed": true,
+        "failed": false,
+        "instance": "dev60536",
+        "lookup_field": "sys_id",
+        "number": "634a47eddb200010f5940181ca961902",
+        "record": {
+            "active": "true",
+            "activity_due": "",
+            "additional_assignee_list": "",
+            "approval": "not requested",
+            "approval_history": "",
+            "approval_set": "",
+            "assigned_to": "",
+            "assignment_group": "",
+            "business_duration": "",
+            "business_service": "",
+            "calendar_duration": "",
+            "change_request": {
+                "link": "https://dev60536.service-now.com/api/now/table/change_request/2de5121347c12200e0ef563dbb9a71eb",
+                "value": "2de5121347c12200e0ef563dbb9a71eb"
+            },
+            "change_task_type": "planning",
+            "close_code": "",
+            "close_notes": "",
+            "closed_at": "",
+            "closed_by": "",
+            "cmdb_ci": "",
+            "comments": "",
+            "comments_and_work_notes": "",
+            "company": "",
+            "contact_type": "",
+            "contract": "",
+            "correlation_display": "",
+            "correlation_id": "",
+            "created_from": "manual",
+            "delivery_plan": "",
+            "delivery_task": "",
+            "description": "Description for my Change Task",
+            "due_date": "",
+            "escalation": "0",
+            "expected_start": "",
+            "follow_up": "",
+            "group_list": "",
+            "impact": "3",
+            "knowledge": "false",
+            "location": "",
+            "made_sla": "true",
+            "number": "CTASK0010001",
+            "on_hold": "false",
+            "on_hold_reason": "",
+            "opened_at": "2019-10-17 14:04:38",
+            "opened_by": {
+                "link": "https://dev60536.service-now.com/api/now/table/sys_user/6816f79cc0a8016401c5a33be04be441",
+                "value": "6816f79cc0a8016401c5a33be04be441"
+            },
+            "order": "",
+            "parent": {
+                "link": "https://dev60536.service-now.com/api/now/table/task/2de5121347c12200e0ef563dbb9a71eb",
+                "value": "2de5121347c12200e0ef563dbb9a71eb"
+            },
+            "planned_end_date": "",
+            "planned_start_date": "",
+            "priority": "4",
+            "reassignment_count": "0",
+            "service_offering": "",
+            "short_description": "Short description for my Change Task",
+            "sla_due": "",
+            "state": "1",
+            "sys_class_name": "change_task",
+            "sys_created_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "sys_created_on": "2019-10-17 14:05:28",
+            "sys_domain": {
+                "link": "https://dev60536.service-now.com/api/now/table/sys_user_group/global",
+                "value": "global"
+            },
+            "sys_domain_path": "/",
+            "sys_id": "634a47eddb200010f5940181ca961902",
+            "sys_mod_count": "0",
+            "sys_tags": "",
+            "sys_updated_by": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
+            "sys_updated_on": "2019-10-17 14:05:28",
+            "time_worked": "",
+            "upon_approval": "proceed",
+            "upon_reject": "cancel",
+            "urgency": "3",
+            "user_input": "",
+            "watch_list": "",
+            "work_end": "",
+            "work_notes": "",
+            "work_notes_list": "",
+            "work_start": ""
+        },
+        "table": "change_task"
+    }
+}
+META: ran handlers
+META: ran handlers
+
+PLAY RECAP ***********************************************************************************************************************************************
+localhost                  : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

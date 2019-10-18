@@ -1,0 +1,102 @@
+---
+- name: Test Servicenow integration
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars_files:
+    - vars/snow_vars.yml
+  vars:
+    chgtasksysid: "634a47eddb200010f5940181ca961902"
+    change_request_sys_id: "2de5121347c12200e0ef563dbb9a71eb"
+
+  tasks:
+  - name: SNOW - REST API - Get ALL existing change tasks
+    uri:
+      url: "{{ snow_url+snow_api_get_chgtask }}"
+      user: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      method: GET
+      validate_certs: yes
+      force_basic_auth: yes
+      follow_redirects: all
+      status_code: 200
+      return_content: no
+    register: uri_chgtasks
+
+  - name: debug - SNOW - REST API - Get ALL existing change tasks
+    debug:
+      var: uri_chgtasks
+
+  - name: debug - SNOW - REST API - Get ALL existing change tasks
+    debug:
+      var: uri_chgtasks.json.result
+
+  - name: debug - SNOW - REST API - Get ALL existing change tasks
+    debug: msg="{{ uri_chgtasks.json.result | selectattr("number", "search", snow_chgtask ) | list }}"
+
+  # next task works
+  - name: debug json_query (this works)
+    debug:
+      msg: "{{ uri_chgtasks.json.result | json_query(_query) }}"
+    vars:
+      _query: "[?number=='{{ snow_chgtask }}'].parent"
+
+  # try to get parent.value directly (this works)
+  - name: debug json_query try to get value field from parent directly (this works)
+    debug:
+      msg: "{{ uri_chgtasks.json.result | json_query(_query) }}"
+    vars:
+      _query: "[?number=='{{ snow_chgtask }}'].parent.value"
+
+  # try to get parent.value directly
+  - name: debug json_query try to get value field from parent directly
+    set_fact:
+      my_parent: "{{ uri_chgtasks.json.result | json_query(_query) }}"
+    vars:
+      _query: "[?number=='{{ snow_chgtask }}'].parent.value"
+
+  - name: Output var
+    debug: msg="{{ item }}"
+    with_items:
+      - "{{ my_parent }}"
+
+  - name: end play here
+    meta: end_play
+
+  # this task fails
+  #- name: debug - SNOW - REST API - Get ALL existing change tasks
+  #  debug: msg="{{ uri_chgtasks.json.result | selectattr("parent", "search", change_request_sys_id ) | list }}"
+
+  - name: debug - SNOW - REST API - Get ALL existing change tasks
+    set_fact: all_chgtasks="{{ uri_chgtasks.json.result | selectattr("number", "search", snow_chgtask ) | list }}"
+
+  - name: debug - SNOW - REST API - Get ALL existing change tasks
+    debug: msg="{{ all_chgtasks | selectattr("number", "search", snow_chgtask ) | list }}"
+
+  - name: debug - var change_request_sys_id
+    debug:
+      var: change_request_sys_id
+
+  - name: debug - var stuff
+    debug:
+      msg: "{{ item.key }}: {{ item.value.value }}"
+    when:
+      - item.key == "parent"
+      - item.value.value is defined
+      - item.value.value == change_request_sys_id
+    with_dict: "{{ all_chgtasks }}"
+    register: my_chgtask_parent
+
+  - name: debug - var my_chgtask
+    debug:
+      var: my_chgtask_parent
+
+#  - name: debug - SNOW - REST API - Get ALL existing change tasks
+#    debug: msg="{{ item.0.name }}"
+#    with_subelements:
+#      - "{{ all_chgtasks }}"
+#      - parent
+
+#  - name: debug - SNOW - REST API - Get ALL existing change tasks
+#    debug: msg="{{ uri_chgtasks.json.result | map('json_query','{number:number}') | list }}"
+

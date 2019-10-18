@@ -1,0 +1,21 @@
+---
+# vars file for Servicenow testing
+
+# credentials
+snow_instance: dev60536
+snow_user: admin
+snow_pw: ""
+
+# REST API
+snow_url: "https://dev60536.service-now.com"
+# the next two lines are from a specific API instead of the Table API
+#snow_api_create_chgreq: "/api/sn_chg_rest/v1/change/normal"
+#snow_api_get_chgreq: "/api/sn_chg_rest/v1/change/normal?sysparm_query=number="
+# next two lines use the Table API to get a change request
+snow_api_create_chgreq: "/api/now/table/change_request"
+snow_api_get_chgreq: "/api/now/table/change_request?number="
+snow_api_get_chgtask: "/api/now/table/change_task?sysparm_fields=number,sys_id,parent"
+#snow_api_get_chgtask: "/api/now/table/change_task"
+snow_chgtask: CTASK0010001 # NON-unique identifier
+#snow_chgtask: CTASK0010003 # NON-unique identifier (but only once in my dev instance)
+snow_chgreq: CHG0040001 # unique identifier

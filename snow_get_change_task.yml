@@ -1,0 +1,49 @@
+---
+- name: Test Servicenow integration
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars_files:
+    - vars/snow_vars.yml
+  vars:
+    chgtasksysid: "634a47eddb200010f5940181ca961902"
+
+  tasks:
+#634a47eddb200010f5940181ca961902
+# fails
+  - name: Get existing change task by CTASK number (typically NON-unique!!!)
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      instance: "{{ snow_instance }}"
+      number: "{{ snow_chgtask }}"
+      #lookup_field: change_request
+      table: change_task # this refers to the Service Catalog task table and is something entirely different
+      state: present
+      data:
+        limit: 1
+    register: chgtask
+
+# fails
+  - name: debug - chgtask data
+    debug:
+      var: chgtask
+
+  - name: Get existing change task by its sysid (unique)
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      instance: "{{ snow_instance }}"
+      number: "{{ chgtasksysid }}"
+      lookup_field: sys_id # changes the field that number: uses to find records
+      table: change_task # this refers to the Service Catalog task table and is something entirely different
+      state: present
+      data:
+        limit: 1
+    register: chgtask
+
+# fails
+  - name: debug - chgtask data
+    debug:
+      var: chgtask
+
