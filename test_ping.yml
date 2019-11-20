@@ -1,0 +1,9 @@
+---
+- name: Test with ping module against Linux systems
+  hosts: groupA
+  order: sorted
+  strategy: linear
+  gather_facts: false
+  tasks:
+    - name: ping module
+      ping:

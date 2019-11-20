@@ -1,0 +1,6 @@
+[groupA]
+bla1 ansible_host=bla1.acme.ca
+bla2 ansible_host=bla2.acme.ca
+
+[groupB]
+

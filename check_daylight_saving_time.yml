@@ -1,0 +1,19 @@
+---
+- name: Conditional on tz_offset
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  ignore_errors: true
+
+  tasks:
+    - debug: msg="It is winter time"
+      when: ansible_date_time.tz_offset == "-0500"
+
+    - debug: msg="It is summer time"
+      when: ansible_date_time.tz_offset == "-0400"
+
+    - shell: timedatectl status | grep -i "DST active" | cut -f2 d':'
+      register: dst_active
+
+    - debug: msg="DST not active"
+      when: '"no" in dst_active.stdout_lines'
