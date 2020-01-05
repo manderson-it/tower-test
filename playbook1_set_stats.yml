@@ -11,5 +11,6 @@
     - name: Playbook1 - Set a set_stats fact
       set_stats:
         data:
-          playbook_one_fact: "I have been set by Playbook1"  
+          playbook_one_fact: "I have been set by Playbook1"
+        aggregate: no # default yes and was duplicating/multiplying the string (according to the number of hosts in inventory)
         per_host: no
