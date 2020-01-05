@@ -19,7 +19,7 @@
         msg: "See job {{ tower_workflow_job_id }}. Workflow: {{ tower_workflow_job_name }}."
     - name: Output tower special vars - Job Template
       debug:
-        msg: "I am job {{ tower_job_template_id }}. Template: {{ tower_job_template_name }}."
+        msg: "I am job {{ tower_job_id }}. Template: {{ tower_job_template_name }}."
 #tower_job_id
 #tower_job_launch_type
 #tower_job_template_id
