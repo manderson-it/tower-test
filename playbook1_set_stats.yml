@@ -1,0 +1,15 @@
+---
+- name: Playbook1 - Install package ack (grep-like search)
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: Playbook1 - Install package ack
+      apt:
+        name: ack
+        state: present
+    - name: Playbook1 - Set a set_stats fact
+      set_stats:
+        data:
+          playbook_one_fact: "I have been set by Playbook1"  
+        per_host: no
