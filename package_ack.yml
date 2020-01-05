@@ -1,0 +1,10 @@
+---
+- name: Install package ack (grep-like search)
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: Install package ack
+      apt:
+        name: ack
+        state: present
