@@ -1,0 +1,11 @@
+- name: Test special variable groups
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Output special variable groups
+      debug:
+        var: groups 
+
+    - name: Output special variable groups
+      debug:
+        var: groups.all
