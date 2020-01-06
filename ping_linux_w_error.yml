@@ -1,0 +1,10 @@
+---
+- name: Ping against Linux systems
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: ping module
+      ping:
+    - name: produce an error
+      fail:
