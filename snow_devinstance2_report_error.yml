@@ -27,7 +27,7 @@
         state: present
         table: change_request
         data:
-          work_notes: "Error(s) encountered while patching {{ app_name }}. \nServer Count is {{ groups.all|length }}. \nServer count: {{ groups.all | list | join(', ') }}. \nFor details see Workflow {{ tower_workflow_job_name }} and Tower job ID {{ tower_workflow_job_id }}."
+          work_notes: "Error(s) encountered while patching {{ app_name }}. \nServer Count is {{ groups.all|length }}. \nServer count: {{ groups.all | list | join(', ') }}. \nFor details see Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }}."
       register: change_cr
       run_once: true
       delegate_to: localhost
