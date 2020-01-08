@@ -2,7 +2,7 @@
 - name: Developer Instance - Test Servicenow integration 
   hosts: all
   connection: local
-  gather_facts: true # for ansible_date_time to exist
+  gather_facts: false # set true for ansible_date_time to exist
   #ignore_errors: true
   vars:
     snow_instance: dev60536
