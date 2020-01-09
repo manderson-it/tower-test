@@ -1,0 +1,6 @@
+---
+- name: Play1 - set_stats with a role, then next play will use other role to retrieve it
+  hosts: all
+  gather_facts: false
+  roles:
+    - test_set_stats1
