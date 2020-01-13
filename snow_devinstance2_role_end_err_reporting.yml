@@ -1,0 +1,13 @@
+---
+- name: End of Workflow error reporting
+  hosts: localhost
+  connection: local
+  gather_facts: false # set true for ansible_date_time to exist
+  #ignore_errors: true
+  vars:
+    snow_instance: dev60536
+    snow_cr: CHG0040001
+    app_name: EDRMS
+
+  roles:
+    - snow_wf_end_reporting
