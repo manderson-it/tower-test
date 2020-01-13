@@ -1,0 +1,6 @@
+---
+- name: Set wf_error
+  hosts: all
+  gather_facts: false
+  roles:
+    - set_stats_toggle_errors
