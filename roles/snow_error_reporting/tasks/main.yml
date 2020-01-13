@@ -19,3 +19,10 @@
   register: change_cr
   run_once: true
   delegate_to: localhost
+
+- name: Set wf_error to true
+  set_stats:
+    data:
+      wf_error: true
+    aggregate: no
+    per_host: no

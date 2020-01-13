@@ -1,0 +1,41 @@
+---
+- debug:
+    msg:
+    - "ServiceNow instance used: '{{ snow_instance }}'"
+    - "ServiceNow Change Request used: '{{ snow_cr }}'"
+  run_once: true
+  delegate_to: localhost
+
+- name: Report PARTIAL success of Workflow in work_notes in a Change Request
+  snow_record:
+    username: "{{ lookup('env','SNOW_USERNAME') }}"
+    password: "{{ lookup('env','SNOW_PASSWORD') }}"
+    instance: "{{ snow_instance }}"
+    number: "{{ snow_cr }}"
+    state: present
+    table: change_request
+    data:
+      work_notes: "Error(s) encountered while patching {{ app_name }}. \nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }} for details."
+  register: change_cr
+  run_once: true
+  delegate_to: localhost
+  when:
+    - wf_error is defined
+    - wf_error
+
+- name: Report COMPLETE success of Workflow in work_notes in a Change Request
+  snow_record:
+    username: "{{ lookup('env','SNOW_USERNAME') }}"
+    password: "{{ lookup('env','SNOW_PASSWORD') }}"
+    instance: "{{ snow_instance }}"
+    number: "{{ snow_cr }}"
+    state: present
+    table: change_request
+    data:
+      work_notes: "Error(s) encountered while patching {{ app_name }}. \nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }} for details."
+  register: change_cr
+  run_once: true
+  delegate_to: localhost
+  when:
+    - wf_error is defined
+    - not wf_error
