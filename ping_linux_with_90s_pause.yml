@@ -1,0 +1,11 @@
+---
+- name: Ping against Linux systems and then pause to introduce delay to the Workflow
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: ping module
+      ping:
+    - name: Delay for 90s
+      pause:
+        seconds: 90
