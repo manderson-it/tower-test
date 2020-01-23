@@ -7,7 +7,40 @@
     - name: Put services info into host facts
       service_facts:
 
+#    - name: Try to loop or query with when
+#      debug:
+#        msg: "{{ item }}"
+#      with_items: "{{ services }}"
+
     - name: Try to loop or query with when
       debug:
         msg: "{{ item }}"
-      with_items: ansible_facts.services
+      with_items: "{{ services }}"
+
+    - name: with_dict - Try to loop or query with when
+      debug:
+        msg: "{{ item }} {{ item.value }}"
+      with_dict: "{{ services }}"
+
+    - name: with_dict - Try to loop or query with when
+      debug:
+        msg: "item.value is {{ item.value }}"
+      with_dict: "{{ services }}"
+
+    - name: with_dict - Try to loop or query with when
+      debug:
+        msg: "item.value is {{ item.value }}"
+      with_dict: "{{ services }}"
+      when: item.value.state == "running"
+
+    - name: with_dict - output name Try to loop or query with when
+      debug:
+        msg: "item.value is {{ item.value.name }}"
+      with_dict: "{{ services }}"
+      when: item.value.state == "running"
+
+#    - name: when conditional - Try to loop or query with when
+#      debug:
+#        msg: "{{ item }}"
+#      with_items: "{{ services }}"
+#      when: item.state == "running"
