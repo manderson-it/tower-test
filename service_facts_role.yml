@@ -1,0 +1,13 @@
+---
+- name: Get services info from system
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  vars:
+    ansible_linux_folder: /opt/Metrolinx/Ansible/temp
+    ansible_linux_archive_folder: /opt/Metrolinx/Ansible/archive
+  
+  roles:
+    - r7_prepatch_services
+
