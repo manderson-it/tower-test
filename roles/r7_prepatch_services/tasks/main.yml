@@ -79,6 +79,10 @@
     enabled: yes
   with_items: "{{ servicesenabled }}"
 
+- name: diff both vars
+  debug:
+    var: "{{ servicesrunning | difference(servicesenabled) }}"
+
 # works without to_nice_json results in without u but on one line
 #- name: Write All Services Pre-Snapshot to disk
 #  copy:
@@ -107,11 +111,10 @@
 
 - name: Copy PrePatchServices file to archive folder with suffix -ddMMyyyyTHHmmss 
   copy:
-    #src: "{{ ansible_linux_folder }}/PrePatchServices.Csv"
     src: "{{ ansible_linux_folder }}/{{ item }}"
     dest: "{{ ansible_linux_archive_folder }}/{{ item}}-{{ filesuffix }}"
     remote_src: yes
-  with_items:
+  loop:
     - "PrePatchServices-servicesrunning"
     - "PrePatchServices-servicesenabled"
 
@@ -121,6 +124,21 @@
 # 1 Read in files from disk as list
 # 2 Create diff between files
 # 3 Execute on the diff (start services and set to enabled)
+#
+# cat introduced a bunch of \n chars and stuff
+# try to write the above files into YAML files, and then read YAML files
+# fetch module may be an option also, then use vars_files: on Ansible controller
+# maybe enough to fetch and use from_yaml filter or just vars_files
+
+- name: Fetch file to Ansible controller for processing
+  fetch:
+    src: "{{ ansible_linux_folder }}/{{ item }}"
+    dest: "servicesdelta/{{ inventory_hostname }}-{{ item }}"
+    flat: yes
+  loop:
+    - "PrePatchServices-servicesrunning"
+    - "PrePatchServices-servicesenabled"
+
 - name: Read list from file
   shell: cat "{{ ansible_linux_folder }}/PrePatchServices-servicesrunning"
   register: postservicesrunning
