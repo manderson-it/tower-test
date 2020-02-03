@@ -1,0 +1,93 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    mylist:
+    - element1
+    - element2
+    - element3
+    - element4
+    mylist2:
+    - element1
+    - element2
+    - element5
+
+  tasks:
+  - name: get difference between two lists
+    debug:
+      msg: "{{ mylist | difference(mylist2) | list }}"
+      #msg: "{{ (pres | difference(posts)) | first }}"
+      #msg: "{{ (preservices.stdout | difference(postservices.stdout)) }}"
+      #msg: "{{ (preservices.stdout | difference(postservices.stdout)) | first }}"
+
+  - name: Read in pre vars
+    include_vars:
+      file: roles/r7_prepatch_services/vars/preservicesrunning.yml
+      #name: preservicesrunning
+
+  - debug:
+      var: preservicesrunning
+
+  - name: Read in post vars
+    include_vars:
+      file: roles/r7_prepatch_services/vars/postservicesrunning.yml
+      #name: postservicesrunning
+
+  - name: get difference between two lists (should return chrony)
+    debug:
+      msg: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
+
+  - meta: end_play
+
+  - shell: cat servicesdelta/34.66.173.77-PrePatchServices-servicesrunning
+    register: preservices
+
+  - debug:
+      var: preservices.stdout
+
+  - shell: cat servicesdelta/34.66.173.77-PostPatchServices-servicesrunning
+    register: postservices
+
+  - debug:
+      var: postservices.stdout
+
+  - debug:
+      var: postservices.stdout | type_debug
+
+  - debug:
+      var: mylist | type_debug
+
+  - debug:
+      var: mylist
+
+  - debug:
+      var: postservices.stdout | from_yaml_all | list
+
+  - set_fact:
+      pres: "{{ preservices.stdout | from_yaml_all | list }}"
+      posts: "{{ postservices.stdout | from_yaml_all | list }}"
+
+  - debug:
+      var: pres | type_debug
+
+  - name: get difference between two lists
+    debug:
+      msg: "{{ pres | difference(posts) | list }}"
+      #msg: "{{ (pres | difference(posts)) | first }}"
+      #msg: "{{ (preservices.stdout | difference(postservices.stdout)) }}"
+      #msg: "{{ (preservices.stdout | difference(postservices.stdout)) | first }}"
+
+  - name: get symmetric difference between two lists
+    debug:
+      msg: "{{ (pres | symmetric_difference(posts)) | first }}"
+
+  - name: read in vars
+    include_vars:
+      file: servicesdelta/34.66.173.77-PostPatchServices-servicesrunning
+      name: stuff
+
+  - debug:
+      var: stuff | type_debug
+
+  - debug:
+      var: stuff

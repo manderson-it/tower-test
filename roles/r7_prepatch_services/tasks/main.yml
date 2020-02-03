@@ -21,6 +21,9 @@
   with_dict: "{{ services }}"
   when: item.value.state == "running"
 
+#- debug:
+#    var: services
+
 - set_fact:
     collectionname: "{{collectionname|default({}) | combine({item.value.name: item.value.state})}}"
   with_dict: "{{ services }}"
@@ -29,6 +32,15 @@
 - name: debug constructed fact
   debug:
     var: collectionname
+
+- name: Build a list YAML file of all running services
+  template:
+    src: preservicesrunning.j2
+    dest: "{{ ansible_linux_folder }}/preservicesrunning.yml"
+  with_dict: "{{ services }}"
+  when: item.value.state == "running"
+
+- meta: end_play
 
 - name: Build a list of all running services
   set_fact:
@@ -79,9 +91,25 @@
     enabled: yes
   with_items: "{{ servicesenabled }}"
 
+- name: check type of vars
+  debug:
+    var: servicesrunning | type_debug
+
+- name: check type of vars
+  debug:
+    var: servicesenabled | type_debug
+
 - name: diff both vars
   debug:
     var: "{{ servicesrunning | difference(servicesenabled) }}"
+
+- name: diff both vars
+  debug:
+    var: "{{ servicesrunning | difference(servicesenabled) | list }}"
+
+- name: diff both vars
+  debug:
+    var: "{{ (servicesrunning | difference(servicesenabled)) | first }}"
 
 # works without to_nice_json results in without u but on one line
 #- name: Write All Services Pre-Snapshot to disk
