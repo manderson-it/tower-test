@@ -1,0 +1,108 @@
+---
+# Query running services and save output to local file system
+- name: Create Ansible Temp Directory
+  file:
+    path: "{{ ansible_linux_folder }}"
+    state: directory
+
+- name: Create Snapshot Archive Directory
+  file:
+    path: "{{ ansible_linux_archive_folder }}"
+    state: directory
+
+- name: Gather service facts
+  service_facts:
+
+- name: Build a YAML file of all running services
+  template:
+    src: "servicesrunning.j2"
+    dest: "{{ ansible_linux_folder }}/{{ file_postrunning }}.yml"
+  with_dict: "{{ services }}"
+  when: item.value.state == "running"
+
+- name: Build a list of all running services
+  set_fact:
+    abbr_postservicesrunning: "{{ abbr_postservicesrunning }} + [ '{{ item.value.name }}' ]"
+  with_dict: "{{ services }}"
+  when: item.value.state == "running"
+  vars:
+    abbr_postservicesrunning: []
+
+- name: Build a YAML file of all enabled services
+  template:
+    src: "servicesenabled.j2"
+    dest: "{{ ansible_linux_folder }}/{{ file_postenabled }}.yml"
+  with_dict: "{{ services }}"
+  when:
+    - item.value.status == "enabled"
+    - item.value.name is not regex("@\.service$")
+
+# due to systemd possibility that static unit file is simply used by another unit it cannot run or be enabled by itself and should therefore be filtered out
+- name: Build a list of all enabled services
+  set_fact:
+    abbr_postservicesenabled: "{{ abbr_postservicesenabled }} + [ '{{ item.value.name }}' ]"
+  with_dict: "{{ services }}"
+  when: 
+    - item.value.status == "enabled"
+    - item.value.name is not regex("@\.service$")
+  vars:
+    abbr_postservicesenabled: []
+
+- name: Construct datetime file suffix
+  set_fact:
+    filesuffix: "{{ ansible_date_time.day }}{{ ansible_date_time.month }}{{ ansible_date_time.year }}T{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
+
+- name: Copy PostPatchServices file to archive folder with suffix -ddMMyyyyTHHmmss 
+  copy:
+    src: "{{ ansible_linux_folder }}/{{ item }}.yml"
+    dest: "{{ ansible_linux_archive_folder }}/{{ item }}-{{ filesuffix }}.yml"
+    remote_src: yes
+  loop:
+    - "{{ file_postrunning }}"
+    - "{{ file_postenabled }}"
+
+- name: Create temporary directory for services files
+  file:
+    path: roles/r7_postpatch_services/vars/servicesdelta
+    state: directory
+  delegate_to: localhost
+  become: no
+
+- name: Fetch file to Ansible controller for processing (test with Tower)
+  fetch:
+    src: "{{ ansible_linux_folder }}/{{ item }}"
+    dest: "roles/r7_postpatch_services/vars/servicesdelta/{{ inventory_hostname }}-{{ item }}"
+    flat: yes
+  #delegate_to: localhost
+  become: no
+  loop:
+    - "{{ file_postrunning }}.yml"
+    - "{{ file_postenabled }}.yml"
+    - "{{ file_prerunning }}.yml"
+    - "{{ file_preenabled }}.yml"
+
+- name: Read fetched files (test with Tower)
+  include_vars:
+    dir: servicesdelta
+  tags: testdiff
+
+- debug:
+    var: preservicesrunning
+  tags: testdiff
+
+- name: get difference between two lists (should return chrony)
+  debug:
+    msg: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
+  tags: testdiff
+
+- name: start services (test with one, two, three services in delta)
+  service:
+    name: "{{ item }}"
+    state: started
+  loop: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
+  tags: testdiff
+
+- name: abbr_ get difference between two lists (should return chrony) if this works than variables are hold in memory between two roles
+  debug:
+    msg: "{{ servicesrunning | difference(abbr_postservicesrunning) | list }}"
+  tags: testdiff

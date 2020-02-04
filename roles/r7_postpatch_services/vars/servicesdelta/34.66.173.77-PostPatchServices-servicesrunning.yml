@@ -14,7 +14,6 @@ postservicesrunning:
   - 'systemd-logind.service'
   - 'google-accounts-daemon.service'
   - 'auditd.service'
-  - 'crond.service'
   - 'google-clock-skew-daemon.service'
   - 'polkit.service'
   - 'NetworkManager.service'

@@ -10,4 +10,5 @@
   
   roles:
     - r7_prepatch_services
+    - r7_postpatch_services
 

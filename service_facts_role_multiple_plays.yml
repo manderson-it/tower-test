@@ -1,0 +1,35 @@
+---
+- name: Get services info from system
+  hosts: all
+  gather_facts: yes
+  become: yes
+  vars:
+    ansible_linux_folder: /opt/Metrolinx/Ansible/temp
+    ansible_linux_archive_folder: /opt/Metrolinx/Ansible/archive
+  roles:
+    - r7_prepatch_services
+
+- name: Second play just doing ping
+  hosts: all
+  gather_facts: yes
+  become: yes
+  vars:
+    ansible_linux_folder: /opt/Metrolinx/Ansible/temp
+    ansible_linux_archive_folder: /opt/Metrolinx/Ansible/archive
+  tasks:
+    - name: Do something else
+      ping:
+
+- name: Third play running postpatch role
+  hosts: all
+  gather_facts: yes
+  become: yes
+  vars:
+    ansible_linux_folder: /opt/Metrolinx/Ansible/temp
+    ansible_linux_archive_folder: /opt/Metrolinx/Ansible/archive
+  pre_tasks:
+    - name: No reason to fetch files because we have them in memory between Plays
+      debug:
+        msg: "No reason to fetch files because we have them in memory between Plays"
+  roles:
+    - r7_postpatch_services

@@ -1,0 +1,7 @@
+---
+postservicesenabled:
+{% for (key, value) in services.items() %}
+{% if value.status == 'enabled' %}
+  - '{{ key }}'
+{% endif %}
+{% endfor %}

@@ -10,37 +10,15 @@
     path: "{{ ansible_linux_archive_folder }}"
     state: directory
 
-# (1) Write current service facts to disk
-# (2) Archive same file with -ddMMyyyyTHHmmss suffox to archive folder
-- name: Get All Services Pre-Snapshot
+- name: Gather service facts
   service_facts:
 
-- name: with_dict - output name Try to loop or query with when
-  debug:
-    msg: "item.value is {{ item.value.name }}"
-  with_dict: "{{ services }}"
-  when: item.value.state == "running"
-
-#- debug:
-#    var: services
-
-- set_fact:
-    collectionname: "{{collectionname|default({}) | combine({item.value.name: item.value.state})}}"
-  with_dict: "{{ services }}"
-  when: item.value.state == "running"
-
-- name: debug constructed fact
-  debug:
-    var: collectionname
-
-- name: Build a list YAML file of all running services
+- name: Build a YAML file of all running services
   template:
-    src: preservicesrunning.j2
-    dest: "{{ ansible_linux_folder }}/preservicesrunning.yml"
+    src: "servicesrunning.j2"
+    dest: "{{ ansible_linux_folder }}/{{ file_prerunning }}.yml"
   with_dict: "{{ services }}"
   when: item.value.state == "running"
-
-- meta: end_play
 
 - name: Build a list of all running services
   set_fact:
@@ -50,20 +28,14 @@
   vars:
     servicesrunning: []
 
-- name: debug constructed list fact
-  debug:
-    var: servicesrunning
-
-- name: loop over constructed list fact
-  debug:
-    msg: "{{ item }}"
-  with_items: "{{ servicesrunning }}"
-
-- name: Make sure services that are supposed to be running are actually running
-  service:
-    name: "{{ item }}"
-    state: started
-  with_items: "{{ servicesrunning }}"
+- name: Build a YAML file of all enabled services
+  template:
+    src: "servicesenabled.j2"
+    dest: "{{ ansible_linux_folder }}/{{ file_preenabled }}.yml"
+  with_dict: "{{ services }}"
+  when:
+    - item.value.status == "enabled"
+    - item.value.name is not regex("@\.service$")
 
 # due to systemd possibility that static unit file is simply used by another unit it cannot run or be enabled by itself and should therefore be filtered out
 - name: Build a list of all enabled services
@@ -76,111 +48,18 @@
   vars:
     servicesenabled: []
 
-- name: debug constructed list fact
-  debug:
-    var: servicesenabled
-
-- name: loop over constructed list fact
-  debug:
-    msg: "{{ item }}"
-  with_items: "{{ servicesenabled }}"
-
-- name: Make sure services that are supposed to be enabled are actually enabled
-  service:
-    name: "{{ item }}"
-    enabled: yes
-  with_items: "{{ servicesenabled }}"
-
-- name: check type of vars
-  debug:
-    var: servicesrunning | type_debug
-
-- name: check type of vars
-  debug:
-    var: servicesenabled | type_debug
-
-- name: diff both vars
-  debug:
-    var: "{{ servicesrunning | difference(servicesenabled) }}"
-
-- name: diff both vars
-  debug:
-    var: "{{ servicesrunning | difference(servicesenabled) | list }}"
-
-- name: diff both vars
-  debug:
-    var: "{{ (servicesrunning | difference(servicesenabled)) | first }}"
-
-# works without to_nice_json results in without u but on one line
-#- name: Write All Services Pre-Snapshot to disk
-#  copy:
-#    content: "{{ ansible_facts.services | to_nice_json }}"
-#    dest: "{{ ansible_linux_folder }}/PrePatchServices-copymodule.Csv"
-#    remote_src: yes
-
-#- name: Write All Services Pre-Snapshot to disk
-#  shell: echo -e "{{ ansible_facts.services | to_nice_json }}" > {{ ansible_linux_folder }}/PrePatchServices.Csv
-
-- name: Write All Services Pre-Snapshot to disk (servicesrunning)
-  copy:
-    content: "{{ servicesrunning }}"
-    dest: "{{ ansible_linux_folder }}/PrePatchServices-servicesrunning"
-    remote_src: yes
-
-- name: Write All Services Pre-Snapshot to disk (servicesenabled)
-  copy:
-    content: "{{ servicesenabled }}"
-    dest: "{{ ansible_linux_folder }}/PrePatchServices-servicesenabled"
-    remote_src: yes
-
 - name: Construct datetime file suffix
   set_fact:
     filesuffix: "{{ ansible_date_time.day }}{{ ansible_date_time.month }}{{ ansible_date_time.year }}T{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}"
 
 - name: Copy PrePatchServices file to archive folder with suffix -ddMMyyyyTHHmmss 
   copy:
-    src: "{{ ansible_linux_folder }}/{{ item }}"
-    dest: "{{ ansible_linux_archive_folder }}/{{ item}}-{{ filesuffix }}"
+    src: "{{ ansible_linux_folder }}/{{ item }}.yml"
+    dest: "{{ ansible_linux_archive_folder }}/{{ item }}-{{ filesuffix }}.yml"
     remote_src: yes
   loop:
-    - "PrePatchServices-servicesrunning"
-    - "PrePatchServices-servicesenabled"
+    - "{{ file_prerunning }}"
+    - "{{ file_preenabled }}"
 
-###########################################################
-###########################################################
-###########################################################
-# 1 Read in files from disk as list
-# 2 Create diff between files
-# 3 Execute on the diff (start services and set to enabled)
-#
-# cat introduced a bunch of \n chars and stuff
-# try to write the above files into YAML files, and then read YAML files
-# fetch module may be an option also, then use vars_files: on Ansible controller
-# maybe enough to fetch and use from_yaml filter or just vars_files
-
-- name: Fetch file to Ansible controller for processing
-  fetch:
-    src: "{{ ansible_linux_folder }}/{{ item }}"
-    dest: "servicesdelta/{{ inventory_hostname }}-{{ item }}"
-    flat: yes
-  loop:
-    - "PrePatchServices-servicesrunning"
-    - "PrePatchServices-servicesenabled"
-
-- name: Read list from file
-  shell: cat "{{ ansible_linux_folder }}/PrePatchServices-servicesrunning"
-  register: postservicesrunning
-
-- name: Show output from read file contents
-  debug:
-    var: postservicesrunning
-
-- name: Show output from read file contents
-  debug:
-    var: postservicesrunning.stdout
-
-- name: iterate over list - Show output from read file contents
-  debug:
-    msg: "{{ item }}"
-  with_items: postservicesrunning.stdout
-
+- pause:
+    prompt: "Before continuing stop crond and chrony to create a delta"

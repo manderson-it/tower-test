@@ -1,0 +1,6 @@
+---
+file_postrunning: "PostPatchServices-servicesrunning"
+file_postenabled: "PostPatchServices-servicesenabled"
+# retrieve prepatch files for delta
+file_prerunning: "PrePatchServices-servicesrunning"
+file_preenabled: "PrePatchServices-servicesenabled"

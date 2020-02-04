@@ -1,0 +1,7 @@
+---
+postservicesrunning:
+{% for (key, value) in services.items() %}
+{% if value.state == 'running' %}
+  - '{{ key }}'
+{% endif %}
+{% endfor %}
