@@ -1,3 +1,17 @@
 [groupA]
-34.66.173.77
+# rhel7
+34.66.173.77 ansible_user=ansible
+# centos6
+34.66.106.23 ansible_user=ansible
+# centos7
+35.193.190.8 ansible_user=ansible
+
+[rhel7]
+34.66.173.77 ansible_user=ansible
+
+[centos6]
+34.66.106.23 ansible_user=ansible
+
+[centos7]
+35.193.190.8 ansible_user=ansible
 

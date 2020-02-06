@@ -99,10 +99,23 @@
   service:
     name: "{{ item }}"
     state: started
-  loop: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
+  loop: "{{ servicesrunning | difference(abbr_postservicesrunning) | list }}"
+  #loop: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
   tags: testdiff
 
 - name: abbr_ get difference between two lists (should return chrony) if this works than variables are hold in memory between two roles
   debug:
     msg: "{{ servicesrunning | difference(abbr_postservicesrunning) | list }}"
+  tags: testdiff
+
+- name: DEBUG - get difference between two lists (should return crond)
+  debug:
+    msg: "{{ servicesenabled | difference(abbr_postservicesenabled) | list }}"
+  tags: testdiff
+
+- name: enable service autostart (test with one, two, three services in delta)
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  loop: "{{ servicesenabled | difference(abbr_postservicesenabled) | list }}"
   tags: testdiff
