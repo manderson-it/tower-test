@@ -89,38 +89,31 @@
 - name: Read fetched files (test with Tower)
   include_vars:
     dir: servicesdelta
-  tags: testdiff
 
 - debug:
     var: preservicesrunning
-  tags: testdiff
 
 - name: From-Files - Get difference between two lists (should return chrony) - vars from fetched templated files
   debug:
     msg: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
-  tags: testdiff
 
 - name: In-Flight - Start services
   service:
     name: "{{ item }}"
     state: started
   loop: "{{ servicesrunning | difference(abbr_postservicesrunning) | list }}"
-  #loop: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
-  tags: testdiff
 
 - name: abbr_ get difference between two lists (should return chrony) if this works than variables are hold in memory between two roles
   debug:
     msg: "{{ servicesrunning | difference(abbr_postservicesrunning) | list }}"
-  tags: testdiff
 
 - name: DEBUG - get difference between two lists (should return crond)
   debug:
     msg: "{{ servicesenabled | difference(abbr_postservicesenabled) | list }}"
-  tags: testdiff
 
 - name: In-Flight - Enable service autostart (test with one, two, three services in delta)
   service:
     name: "{{ item }}"
     enabled: yes
   loop: "{{ servicesenabled | difference(abbr_postservicesenabled) | list }}"
-  tags: testdiff
+

@@ -66,6 +66,3 @@
     - "{{ file_prerunning }}"
     - "{{ file_preenabled }}"
 
-# injected in second play
-#- pause:
-#    prompt: "Before continuing stop crond and chrony to create a delta"

@@ -9,7 +9,7 @@
   roles:
     - r7_prepatch_services
 
-- name: Second play just doing ping
+- name: Second play - stop a couple services
   hosts: all
   gather_facts: yes
   become: yes
@@ -23,6 +23,7 @@
       service:
         name: "{{ item }}"
         state: stopped
+        enabled: no
       ignore_errors: true
       loop:
       - crond
