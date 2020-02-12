@@ -1,7 +1,7 @@
 ---
 - debug:
     msg:
-    - "ServiceNow instance used: '{{ lookup('env','SNOW_INSTANCE' }}'"
+    - "ServiceNow instance used: '{{ lookup('env','SNOW_INSTANCE') }}'"
     - "ServiceNow Change Request used: '{{ snow_cr }}'"
   run_once: true
   delegate_to: localhost
