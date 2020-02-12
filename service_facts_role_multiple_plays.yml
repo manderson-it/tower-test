@@ -19,6 +19,15 @@
   tasks:
     - name: Do something else
       ping:
+    - name: Stop services to create delta
+      service:
+        name: "{{ item }}"
+        state: stopped
+      ignore_errors: true
+      loop:
+      - crond
+      - ntpd
+      - chronyd
 
 - name: Third play running postpatch role
   hosts: all
@@ -31,5 +40,8 @@
     - name: No reason to fetch files because we have them in memory between Plays
       debug:
         msg: "No reason to fetch files because we have them in memory between Plays"
+    - name: Not true - No reason to fetch files because we have them in memory between Plays
+      debug:
+        msg: "Need to fetch files because we may stop after pre services role, and then only execute post services role at a later point in time."
   roles:
     - r7_postpatch_services

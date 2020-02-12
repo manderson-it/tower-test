@@ -1,7 +1,7 @@
 ---
 - debug:
     msg:
-    - "ServiceNow instance used: '{{ snow_instance }}'"
+    - "ServiceNow instance used: '{{ lookup('env','SNOW_INSTANCE' }}'"
     - "ServiceNow Change Request used: '{{ snow_cr }}'"
   run_once: true
   delegate_to: localhost
@@ -10,7 +10,7 @@
   snow_record:
     username: "{{ lookup('env','SNOW_USERNAME') }}"
     password: "{{ lookup('env','SNOW_PASSWORD') }}"
-    instance: "{{ snow_instance }}"
+    instance: "{{ lookup('env','SNOW_INSTANCE') }}"
     number: "{{ snow_cr }}"
     state: present
     table: change_request
@@ -26,3 +26,8 @@
       wf_error: true
     aggregate: no
     per_host: no
+
+- name: Fail this Job Template due to previous Job Template error to reflect correct state
+  fail:
+    msg: "Fail this Job Template to set Workflow status to failed. Required due to reflect correct state"
+

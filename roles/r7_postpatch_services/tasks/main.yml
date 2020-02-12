@@ -1,5 +1,10 @@
 ---
 # Query running services and save output to local file system
+# vars:
+# servicesrunning: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
+# servicesenabled: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
+# preservicesrunning: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
+# preservicesenabled: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
 - name: Create Ansible Temp Directory
   file:
     path: "{{ ansible_linux_folder }}"
@@ -17,8 +22,8 @@
   template:
     src: "servicesrunning.j2"
     dest: "{{ ansible_linux_folder }}/{{ file_postrunning }}.yml"
-  with_dict: "{{ services }}"
-  when: item.value.state == "running"
+  #with_dict: "{{ services }}"
+  #when: item.value.state == "running"
 
 - name: Build a list of all running services
   set_fact:
@@ -37,7 +42,7 @@
     - item.value.status == "enabled"
     - item.value.name is not regex("@\.service$")
 
-# due to systemd possibility that static unit file is simply used by another unit it cannot run or be enabled by itself and should therefore be filtered out
+# due to systemd possibility that static unit file is simply used by another unit it cannot run or be enabled by itself and should therefore be filtered out (see regex below)
 - name: Build a list of all enabled services
   set_fact:
     abbr_postservicesenabled: "{{ abbr_postservicesenabled }} + [ '{{ item.value.name }}' ]"
@@ -90,12 +95,12 @@
     var: preservicesrunning
   tags: testdiff
 
-- name: get difference between two lists (should return chrony)
+- name: From-Files - Get difference between two lists (should return chrony) - vars from fetched templated files
   debug:
     msg: "{{ preservicesrunning | difference(postservicesrunning) | list }}"
   tags: testdiff
 
-- name: start services (test with one, two, three services in delta)
+- name: In-Flight - Start services
   service:
     name: "{{ item }}"
     state: started
@@ -113,7 +118,7 @@
     msg: "{{ servicesenabled | difference(abbr_postservicesenabled) | list }}"
   tags: testdiff
 
-- name: enable service autostart (test with one, two, three services in delta)
+- name: In-Flight - Enable service autostart (test with one, two, three services in delta)
   service:
     name: "{{ item }}"
     enabled: yes

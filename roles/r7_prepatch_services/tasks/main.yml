@@ -1,5 +1,10 @@
 ---
 # Query running services and save output to local file system
+# vars:
+# servicesrunning: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
+# servicesenabled: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
+# preservicesrunning: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
+# preservicesenabled: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
 - name: Create Ansible Temp Directory
   file:
     path: "{{ ansible_linux_folder }}"
@@ -17,8 +22,8 @@
   template:
     src: "servicesrunning.j2"
     dest: "{{ ansible_linux_folder }}/{{ file_prerunning }}.yml"
-  with_dict: "{{ services }}"
-  when: item.value.state == "running"
+  #with_dict: "{{ services }}"
+  #when: item.value.state == "running"
 
 - name: Build a list of all running services
   set_fact:
@@ -61,5 +66,6 @@
     - "{{ file_prerunning }}"
     - "{{ file_preenabled }}"
 
-- pause:
-    prompt: "Before continuing stop crond and chrony to create a delta"
+# injected in second play
+#- pause:
+#    prompt: "Before continuing stop crond and chrony to create a delta"
