@@ -27,7 +27,7 @@
         state: present
         table: change_request
         data:
-          work_notes: "Patching completed for {{ app_name }}. \nServer Count is {{ groups.all|length }}. \nServer count: {{ groups.all | list | join(', ') }}. \nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }}."
+          work_notes: "Patching has been initiated for {{ app_name }}. \nServer Count is {{ groups.all|length }}.\nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }} for more information."
       register: change_cr
       run_once: true
       delegate_to: localhost
