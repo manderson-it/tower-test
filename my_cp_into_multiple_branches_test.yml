@@ -1,0 +1,28 @@
+---
+- name: Developer Instance - Test Servicenow integration 
+  hosts: all
+  connection: local
+  gather_facts: true # for ansible_date_time to exist
+
+  tasks:
+    - debug:
+        msg:
+        - "ServiceNow instance used: {{ lookup('env','SNOW_INSTANCE') }}"
+        - "ServiceNow Change Request used: '{{ snow_cr }}'"
+      run_once: true
+      delegate_to: localhost
+        
+    - name: ServiceNow - End of Workflow notification to CR work_notes
+      snow_record:
+        username: "{{ lookup('env','SNOW_USERNAME') }}"
+        password: "{{ lookup('env','SNOW_PASSWORD') }}"
+        instance: "{{ lookup('env','SNOW_INSTANCE') }}"
+        number: "{{ snow_cr }}"  #"{{ new_cr.record.number }}"
+        state: present
+        table: change_request
+        data:
+          work_notes: "Patching ended for {{ app_name }}.\nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }}."
+      register: change_cr
+      run_once: true
+      delegate_to: localhost
+
