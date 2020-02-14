@@ -3,8 +3,8 @@
 # vars:
 # servicesrunning: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
 # servicesenabled: for in-flight execution of both pre and post services Ansible roles (this var is unavailable if you only run the post services role)
-# preservicesrunning: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
-# preservicesenabled: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
+# postservicesrunning: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
+# postservicesenabled: templated var to var-file on target system but has to be fetched in the post role to Ansible controller (this var is available if you only run the post services role)
 - name: Create Ansible Temp Directory
   file:
     path: "{{ ansible_linux_folder }}"

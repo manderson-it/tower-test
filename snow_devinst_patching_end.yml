@@ -3,13 +3,7 @@
   hosts: all
   connection: local
   gather_facts: true # for ansible_date_time to exist
-  #ignore_errors: true
-  vars:
-    #snow_instance: dev60536
-    snow_cr: CHG0040001
-    app_name: EDRMS
 
-# table: u_ansible_change_ticket_web_service # change_request
   tasks:
     - debug:
         msg:
@@ -18,7 +12,7 @@
       run_once: true
       delegate_to: localhost
         
-    - name: WORKS - Update a change request with work_notes risk priority impact
+    - name: ServiceNow - End of Workflow notification to CR work_notes
       snow_record:
         username: "{{ lookup('env','SNOW_USERNAME') }}"
         password: "{{ lookup('env','SNOW_PASSWORD') }}"
@@ -27,11 +21,8 @@
         state: present
         table: change_request
         data:
-          work_notes: "Patching completed for {{ app_name }}.\nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }}."
+          work_notes: "Patching ended for {{ app_name }}.\nSee Workflow {{ tower_workflow_job_name | default('UNDEFINED') }} and Tower job ID {{ tower_workflow_job_id | default('UNDEFINED') }}."
       register: change_cr
       run_once: true
       delegate_to: localhost
-# 
-#    - name: debug - Edited change_cr Change Request
-#      debug:
-#        var: change_cr
+
