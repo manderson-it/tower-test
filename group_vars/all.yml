@@ -1,0 +1,3 @@
+---
+GUID: "{{ lookup('env', 'GUID') }}"
+

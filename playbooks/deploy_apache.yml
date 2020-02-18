@@ -1,0 +1,7 @@
+---
+- name: deploy apache and index.html
+  hosts: apps
+  gather_facts: false
+  become: true
+  roles:
+  - apache

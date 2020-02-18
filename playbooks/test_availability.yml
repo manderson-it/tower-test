@@ -1,0 +1,22 @@
+---
+- name: Test availability of web app through HAproxy and frontends directly
+  hosts: frontends:apps
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: Test availability
+    uri:
+      url: http://{{inventory_hostname}}.{{GUID}}.internal:8080
+      return_content: true
+    register: this
+    failed_when: "'Ansible has done its job' not in this.content"
+    when: "'apps' in group_names"
+
+  - name: Test availability
+    uri:
+      url: http://{{inventory_hostname}}.{{GUID}}.internal
+      return_content: true
+    register: this
+    failed_when: "'Ansible has done its job' not in this.content"
+    when: "'frontends' in group_names"

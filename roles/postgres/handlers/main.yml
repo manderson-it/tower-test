@@ -1,0 +1,6 @@
+---
+  - name: start postgres
+    service:
+      name: postgresql.service
+      state: started
+      enabled: yes

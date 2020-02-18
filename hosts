@@ -12,6 +12,3 @@ appdb1 ansible_host=appdb1."{{ GUID }}".internal
 frontends
 apps
 appdbs
-
-[internal:vars]
-GUID="{{ lookup('env', 'GUID') }}"

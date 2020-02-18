@@ -1,0 +1,6 @@
+---
+- import_playbook: enable_repo.yml
+- import_playbook: deploy_postgres.yml
+- import_playbook: deploy_tomcat.yml
+- import_playbook: deploy_apache.yml
+- import_playbook: deploy_haproxy.yml

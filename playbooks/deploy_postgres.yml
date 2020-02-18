@@ -1,0 +1,7 @@
+---
+- name: deploy postgres
+  gather_facts: false
+  become: true
+  hosts: appdbs
+  roles:
+  - postgres
