@@ -19,7 +19,7 @@
       register: result
     - name: DEBUG returned status from API call
       debug:
-        var: result|from_json
+        var: "{{ result | to_nice_json }}"
     - name: Test - SSH reachability and Python readiness on Tower instance node
       ping:
     - name: Test - Fact gathering on instance node
