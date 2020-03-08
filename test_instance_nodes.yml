@@ -5,7 +5,8 @@
   tasks:
     - name: Check instance node status via Tower API /api/v2/ping
       uri:
-        url: https://localhost/api/v2/ping
+        url: https://localhost/api/v2/ping/
+        follow_redirects: all
         method: POST
         validate_certs: False
         status_code:
@@ -14,13 +15,13 @@
           - 202
         return_content: True
       register: result
-    - name: DEBUG result
+    - name: DEBUG returned status from API call
       debug:
-        var: result
-    - name: Ansible ping instance node
+        var: result|from_json
+    - name: Test - SSH reachability and Python readiness on Tower instance node
       ping:
-    - name: Ansible gather_facts instance node
+    - name: Test - Fact gathering on instance node
       setup:
-    - name: DEBUG gathered facts
+    - name: DEBUG gathered facts from instance node
       debug:
         var: ansible_facts
