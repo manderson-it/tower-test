@@ -1,0 +1,24 @@
+- name: Test reachability of instance nodes
+  hosts: all
+  
+  tasks:
+    - name: Check instance node status via Tower API /api/v2/ping
+      uri:
+        method: POST
+        validate_certs: False
+        status_code:
+          - 200
+          - 201
+          - 202
+        return_content: True
+      register: result
+    - name: DEBUG result
+      debug:
+        var: result
+    - name: Ansible ping instance node
+      ping:
+    - name: Ansible gather_facts instance node
+      setup:
+    - name: DEBUG gathered facts
+      debug:
+        var: ansible_facts
