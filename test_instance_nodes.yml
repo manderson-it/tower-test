@@ -11,15 +11,12 @@
         user: "{{ api_username }}"
         password: "{{ api_password }}"
         validate_certs: False
-        status_code:
-          - 200
-          - 201
-          - 202
+        status_code: [200, 201, 202]
         return_content: True
       register: result
     - name: DEBUG returned status from API call
       debug:
-        var: "{{ result | to_nice_json }}"
+        var: result
     - name: Test - SSH reachability and Python readiness on Tower instance node
       ping:
     - name: Test - Fact gathering on instance node
