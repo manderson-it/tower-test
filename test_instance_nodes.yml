@@ -1,9 +1,11 @@
 - name: Test reachability of instance nodes
   hosts: all
+  ignore_errors: True
   
   tasks:
     - name: Check instance node status via Tower API /api/v2/ping
       uri:
+        url: https://localhost/api/v2/ping
         method: POST
         validate_certs: False
         status_code:
