@@ -1,3 +1,5 @@
+---
+# Create an inventory with all Tower instance nodes that should be checked by this playbook
 - name: Test reachability of instance nodes
   hosts: all
   ignore_errors: True # to continue with subsequent tasks in case of error
@@ -14,13 +16,18 @@
         status_code: [200, 201, 202]
         return_content: True
       register: result
+      run_once: True # Call against API needs to be run only once for all inventory hosts
+      
     - name: DEBUG returned status from API call
       debug:
         var: result.json
+        
     - name: Test - SSH reachability and Python readiness on Tower instance node
       ping:
+      
     - name: Test - Fact gathering on instance node
       setup:
+      
     - name: DEBUG gathered facts from instance node
       debug:
         var: ansible_facts
