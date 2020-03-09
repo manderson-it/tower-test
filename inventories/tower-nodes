@@ -1,2 +1,6 @@
+[main]
+master1 ansible_connection=local
+
+[instances]
 node1 ansible_host=34.66.173.77
 node2 ansible_host=34.69.142.186
