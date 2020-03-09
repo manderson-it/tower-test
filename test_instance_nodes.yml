@@ -1,11 +1,14 @@
 ---
-# Create an inventory with all Tower instance nodes that should be checked by this playbook
-- name: Test reachability of instance nodes
-  hosts: all
+# Create an inventory with all Tower nodes that should be checked by this playbook
+#   create two groups in that inventory
+#   [main] with the three main Tower nodes, and
+#   [instances] with all Tower instance nodes
+- name: Check systemctl service status on main Tower nodes
+  hosts: main # inventory group of the three main Tower nodes
   ignore_errors: True # to continue with subsequent tasks in case of error
   vars:
     tower_api_fqdn: "35.202.98.115"
-  
+
   tasks:
     - name: Check instance node status via Tower API /api/v2/ping
       uri:
@@ -25,6 +28,19 @@
         var: result.json
       run_once: True # Result from API call needs to be debugged once only
       
+    - name: Get services status
+      command: ansible-tower-service status
+      register: r_service
+
+    - name: DEBUG returned status of services
+      debug:
+        var: r_service
+
+- name: Test reachability of Tower instance nodes
+  hosts: instances # inventory group of all Tower instance nodes
+  ignore_errors: True # to continue with subsequent tasks in case of error
+  
+  tasks:
     - name: Test - SSH reachability and Python readiness on each Tower instance node
       ping:
       
