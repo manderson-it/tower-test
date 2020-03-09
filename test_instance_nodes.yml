@@ -5,7 +5,7 @@
   tasks:
     - name: Check instance node status via Tower API /api/v2/ping
       uri:
-        url: https://35.202.98.115/api/v2/ping/
+        url: https://localhost/api/v2/ping/
         follow_redirects: all
         method: GET
         user: "{{ api_username }}"
