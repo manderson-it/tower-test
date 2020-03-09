@@ -4,7 +4,7 @@
   hosts: all
   ignore_errors: True # to continue with subsequent tasks in case of error
   vars:
-    tower_api_fqdn: "35.188.98.144"
+    tower_api_fqdn: "35.202.98.115"
   
   tasks:
     - name: Check instance node status via Tower API /api/v2/ping
