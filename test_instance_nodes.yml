@@ -23,13 +23,14 @@
     - name: DEBUG returned status from API call
       debug:
         var: result.json
-        
-    - name: Test - SSH reachability and Python readiness on Tower instance node
+      run_once: True # Result from API call needs to be debugged once only
+      
+    - name: Test - SSH reachability and Python readiness on each Tower instance node
       ping:
       
-    - name: Test - Fact gathering on instance node
+    - name: Test - Fact gathering on each Tower instance node
       setup:
       
-    - name: DEBUG gathered facts from instance node
+    - name: DEBUG gathered facts from each Tower instance node
       debug:
         var: ansible_facts
