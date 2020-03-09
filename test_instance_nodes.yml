@@ -15,8 +15,8 @@
         url: "https://{{ tower_api_fqdn }}/api/v2/ping/"
         follow_redirects: all
         method: GET
-        user: "{{ api_username }}"
-        password: "{{ api_password }}"
+        # user: "{{ api_username }}"
+        # password: "{{ api_password }}"
         validate_certs: False
         status_code: [200, 201, 202]
         return_content: True
