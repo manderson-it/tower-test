@@ -11,15 +11,15 @@
     - name: Playbook1 - Set a set_stats fact
       set_stats:
         data:
-          playbook_one_fact: "I have been set by Playbook1"
+          downtime_id: "I have been set by Playbook1"
         aggregate: no # default yes and was duplicating/multiplying the string (according to the number of hosts in inventory)
         per_host: no
-    - name: Output tower special vars - Workflow (ID is UNDEFINED if variable is undefined)
-      debug:
-        msg: "See job {{ tower_workflow_job_id | default('UNDEFINED') }}. Workflow: {{ tower_workflow_job_name | default('UNDEFINED') }}."
-    - name: Output tower special vars - Job Template
-      debug:
-        msg: "I am job {{ tower_job_id | default('UNDEFINED') }}. Template: {{ tower_job_template_name | default('UNDEFINED') }}."
+    #- name: Output tower special vars - Workflow (ID is UNDEFINED if variable is undefined)
+    #  debug:
+    #    msg: "See job {{ tower_workflow_job_id | default('UNDEFINED') }}. Workflow: {{ tower_workflow_job_name | default('UNDEFINED') }}."
+    #- name: Output tower special vars - Job Template
+    #  debug:
+    #    msg: "I am job {{ tower_job_id | default('UNDEFINED') }}. Template: {{ tower_job_template_name | default('UNDEFINED') }}."
 #tower_job_id
 #tower_job_launch_type
 #tower_job_template_id
