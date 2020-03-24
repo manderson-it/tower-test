@@ -1,0 +1,23 @@
+---
+- name: [SNOW] - Create Change Request (CR)
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  vars_files:
+    - vars/snow_vars.yml
+  vars:
+    chgtasksysid: "634a47eddb200010f5940181ca961902"
+
+  tasks:
+  - name: [SNOW] - Create a new Change Request (has unique id)
+    snow_record:
+      username: "{{ snow_user }}"
+      password: "{{ snow_pw }}"
+      instance: "{{ snow_instance }}"
+      table: change_request # this refers to the Service Catalog task table and is something entirely different
+      state: present
+    register: r_snow_cr
+
+  - name: DEBUG - snow api reply
+    debug:
+      var: r_snow_cr
