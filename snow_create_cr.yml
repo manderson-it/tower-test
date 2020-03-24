@@ -16,6 +16,8 @@
       # instance: "{{ snow_instance }}" # defaults to env var SN_INSTANCE
       table: change_request # this refers to the Service Catalog task table and is something entirely different
       state: present
+      data:
+        short_description: "Ansible created this"
     register: r_snow_cr
 
   - name: DEBUG - snow api reply
