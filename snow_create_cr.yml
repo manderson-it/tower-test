@@ -11,8 +11,8 @@
   tasks:
   - name: "[SNOW] - Create a new Change Request (has unique id)"
     snow_record:
-      username: "{{ snow_user }}"
-      password: "{{ snow_pw }}"
+      username: "{{ snow_username }}"
+      password: "{{ snow_password }}"
       instance: "{{ snow_instance }}"
       table: change_request # this refers to the Service Catalog task table and is something entirely different
       state: present
