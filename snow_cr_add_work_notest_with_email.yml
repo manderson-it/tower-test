@@ -1,0 +1,16 @@
+---
+- name: "[SNOW] - email to work_notes"
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+  - name: Sending an e-mail using Gmail SMTP servers
+    mail:
+      host: "{{ lookup('env','MAIL_HOST') }}"
+      username: "{{ lookup('env','MAIL_USERNAME') }}"
+      password: "{{ lookup('env','MAIL_PASSWORD') }}"
+      port: 587
+      to: "IT Service Desk <dev100866@servicenowdevelopers.com>"
+      subject: "RE: {{ snow_cr }}"
+      body: "System {{ ansible_hostname }} has been successfully provisioned."
