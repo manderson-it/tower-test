@@ -13,4 +13,4 @@
       port: 587
       to: "IT Service Desk <dev100866@servicenowdevelopers.com>"
       subject: "RE: {{ snow_cr }}"
-      body: "System {{ ansible_hostname }} has been successfully provisioned."
+      body: "Hey, I am Ansible Tower."
