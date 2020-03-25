@@ -13,5 +13,5 @@
       port: 587
       from: "chefkoch666@pepisandbox.com"
       to: "dev100866@servicenowdevelopers.com"
-      subject: "Re: Change Request {{ snow_cr }} notification"
+      subject: "Re: {{ snow_cr }}" # "Re: Change Request {{ snow_cr }} notification"
       body: "Hey, I am Ansible Tower. {{ snow_ref | default('') }}"
