@@ -20,4 +20,4 @@
 
   - name: DEBUG - snow api reply
     debug:
-      var: r_snow_cr
+      var: r_snow_cr.record.number
