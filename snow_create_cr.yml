@@ -5,8 +5,6 @@
   gather_facts: true
   vars_files:
     - vars/snow_vars.yml
-  vars:
-    chgtasksysid: "634a47eddb200010f5940181ca961902"
 
   tasks:
   - name: "[SNOW] - Create a new Change Request (has unique id)"
