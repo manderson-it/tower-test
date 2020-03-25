@@ -12,6 +12,6 @@
       password: "{{ lookup('env','MAIL_PASSWORD') }}"
       port: 587
       from: "chefkoch666@pepisandbox.com"
-      to: "IT Service Desk <dev100866@servicenowdevelopers.com>"
-      subject: "RE: {{ snow_cr }}"
+      to: "dev100866@servicenowdevelopers.com"
+      subject: "Re: Change Request {{ snow_cr }} notification"
       body: "Hey, I am Ansible Tower. {{ snow_ref | default('') }}"
