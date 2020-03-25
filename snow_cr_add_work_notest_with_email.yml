@@ -5,7 +5,7 @@
   gather_facts: False
   
   tasks:
-  - name: Sending an e-mail using Gmail SMTP servers
+  - name: "[SNOW] - email to work_notes"
     mail:
       host: "{{ lookup('env','MAIL_HOST') }}"
       username: "{{ lookup('env','MAIL_USERNAME') }}"
