@@ -1,0 +1,22 @@
+---
+- name: "[SNOW] - Add work_notes to CR"
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+  - name: Sanity Check
+    assert:
+      that:
+      - snow_cr is defined
+      - snow_cr | length == 10
+      fail_msg: "snow_cr undefined or not 10 chars long"
+      success_msg: "All required variables are defined"
+      
+  - name: "[SNOW] - Add work_notes to CR"
+    snow_record:
+      number: "{{ snow_cr | default('CHG0030001', true)}}"
+      state: present
+      table: change_request
+      data:
+        work_notes: "Updated by {{ tower_job_template_name }} job ID {{ tower_job_id }}"
