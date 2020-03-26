@@ -1,0 +1,2 @@
+[icinga2_server]
+op-icinga2-server.manderson-it.team.arctiq.ca ansible_host=34.71.29.68
