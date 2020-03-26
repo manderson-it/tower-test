@@ -20,10 +20,10 @@
     - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
       uri:
         url: https://localhost:5665/v1/actions/schedule-downtime
+        url_username: "{{ lookup('env','API_USERNAME') }}"
+        url_password: "{{ lookup('env','API_PASSWORD') }}"
         validate_certs: False
-        method: POST
-        user: "{{ lookup('env','API_USERNAME') }}"
-        password: "{{ lookup('env','API_PASSWORD') }}"
+        method: "POST"
         src: file.json
         remote_src: True
         return_content: True
