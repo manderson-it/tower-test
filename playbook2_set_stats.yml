@@ -1,10 +1,10 @@
 ---
-- name: Playbook2 - Output set_stats fact set by a different playbook (playbook1_set_stats.yml)
+- name: "[set-stats] Playbook2 - Get downtime_id from playbook 1 (playbook1_set_stats.yml)"
   hosts: all
-  gather_facts: false
+  gather_facts: False
   
   tasks:
-    - name: Playbook2 - Output set_stats fact set by a different playbook
+    - name: "[set-stats] Playbook2 - Get downtime_id from playbook 1 (playbook1_set_stats.yml)"
       debug:
         msg: "{{ downtime_id }}"
-      run_once: yes # runs only on first host in the inventory or batch, I guess
+      run_once: True # runs only on first host in the inventory or batch, I guess
