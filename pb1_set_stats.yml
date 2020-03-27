@@ -36,4 +36,12 @@
 
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
+        var: r_uri
+
+    - name: "[set-stats] Playbook 1 - DEBUG"
+      debug:
+        var: r_uri.result
+        
+    - name: "[set-stats] Playbook 1 - DEBUG"
+      debug:
         var: r_uri.results.json
