@@ -12,7 +12,6 @@
 
     - name: "[set-stats] Playbook 2 - Remove downtime"
       uri:
-        #url: http://op-icinga2-server.manderson-it.team.arctiq.ca:5665/v1/actions/remove-downtime
         url: https://localhost:5665/v1/actions/remove-downtime
         url_username: "{{ lookup('env','API_USERNAME') }}"
         url_password: "{{ lookup('env','API_PASSWORD') }}"
