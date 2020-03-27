@@ -12,10 +12,11 @@
         per_host: False
 
     - name: "[set-stats] Playbook 1 - Create JSON to set downtime"
-      command: /home/sa_106555649241189152003/createJSON.sh
-      delegate_to: "{{ item }}"
-      delegate_facts: True
-      loop: "{{ groups['icinga2_server'] }}"
+      #command: /home/sa_106555649241189152003/createJSON.sh
+      command: ./createJSON.sh
+      #delegate_to: "{{ item }}"
+      #delegate_facts: True
+      #loop: "{{ groups['icinga2_server'] }}"
 
     - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
       uri:
