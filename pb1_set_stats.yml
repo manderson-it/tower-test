@@ -14,11 +14,7 @@
         per_host: False
 
     - name: "[set-stats] Playbook 1 - Create JSON to set downtime"
-      #command: /home/sa_106555649241189152003/createJSON.sh
       command: ./createJSON.sh
-      #delegate_to: "{{ item }}"
-      #delegate_facts: True
-      #loop: "{{ groups['icinga2_server'] }}"
 
     - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
       uri:
@@ -30,8 +26,6 @@
         method: "POST"
         body_format: json
         body: "{{ lookup('file','file.json') }}"
-        #src: file.json
-        #remote_src: True
         return_content: True
         headers:
           Accept: "application/json"
@@ -42,7 +36,4 @@
 
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
-        var: r_uri
-      #delegate_to: "{{ item }}"
-      #delegate_facts: True
-      #loop: "{{ groups['icinga2_server'] }}"
+        var: r_uri.results.json
