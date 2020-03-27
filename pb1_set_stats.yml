@@ -6,13 +6,6 @@
   gather_facts: False
   
   tasks:
-    - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
-      set_stats:
-        data:
-          downtime_id: "61bff285-3390-4211-bf6f-0b684586e22a"
-        aggregate: False # default yes and was duplicating/multiplying the string (according to the number of hosts in inventory)
-        per_host: False
-
     - name: "[set-stats] Playbook 1 - Create JSON to set downtime"
       command: ./createJSON.sh
 
@@ -36,20 +29,11 @@
 
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
-        var: r_uri
-
-    - name: "[set-stats] Playbook 1 - DEBUG"
-      debug:
-        var: r_uri.results
-        
-    - name: "[set-stats] Playbook 1 - DEBUG"
-      debug:
-        var: r_uri.results[0].json
-
-    - name: "[set-stats] Playbook 1 - DEBUG"
-      debug:
-        var: r_uri.results[0].json.results
-        
-    - name: "[set-stats] Playbook 1 - DEBUG"
-      debug:
         var: r_uri.results[0].json.results[0].name
+
+    - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
+      set_stats:
+        data:
+          downtime_id: "{{ r_uri.results[0].json.results[0].name }}"
+        aggregate: False # default yes and was duplicating/multiplying the string (according to the number of hosts in inventory)
+        per_host: False
