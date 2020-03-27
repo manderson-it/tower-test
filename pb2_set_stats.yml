@@ -23,11 +23,8 @@
         return_content: True
         headers:
           Accept: "application/json"
+        status_code: 200,500
       register: r_uri
       delegate_to: "{{ item }}"
       delegate_facts: True
       loop: "{{ groups['icinga2_server'] }}"
-
-    - name: "[set-stats] Playbook 2 - DEBUG"
-      debug:
-        var: r_uri.results[0].json.results[0]
