@@ -19,7 +19,8 @@
         validate_certs: False
         method: "POST"
         body_format: json
-        body: "{{ lookup('file','dt_remove.json') }}"
+        body: >
+          {"pretty":"true","downtime":"{{downtime_id}}"}
         return_content: True
         headers:
           Accept: "application/json"
