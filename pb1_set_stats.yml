@@ -24,11 +24,12 @@
         url_password: "{{ lookup('env','API_PASSWORD') }}"
         validate_certs: False
         method: "POST"
-        src: file.json
-        remote_src: True
+        body_format: json
+        body: "{{ lookup('file','file.json') }}"
+        #src: file.json
+        #remote_src: True
         return_content: True
         headers:
-          Content-Type: "application/json"
           Accept: "application/json"
       register: r_uri
       delegate_to: "{{ item }}"
