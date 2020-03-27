@@ -45,3 +45,11 @@
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
         var: r_uri.results[0].json
+
+    - name: "[set-stats] Playbook 1 - DEBUG"
+      debug:
+        var: r_uri.results[0].json.results
+        
+    - name: "[set-stats] Playbook 1 - DEBUG"
+      debug:
+        var: r_uri.results[0].json.results[0].name
