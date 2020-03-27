@@ -1,0 +1,10 @@
+{
+   "pretty": true,
+   "type": "Service",
+   "filter": "match(\"*swap*\", service.name)",
+   "author": "icingaadmin",
+   "comment": "Who needs swap",
+   "fixed": true,
+   "start_time": 1585315966,
+   "end_time": 1585319999
+}
