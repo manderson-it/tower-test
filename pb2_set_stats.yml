@@ -1,0 +1,33 @@
+---
+- name: "[set-stats] Playbook 2 - Remove downtime"
+  #hosts: all
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+    - name: "[set-stats] Playbook 2 - DEBUG"
+      debug:
+        var: downtime_id
+
+    - name: "[set-stats] Playbook 2 - Remove downtime"
+      uri:
+        #url: http://op-icinga2-server.manderson-it.team.arctiq.ca:5665/v1/actions/remove-downtime
+        url: https://localhost:5665/v1/actions/remove-downtime
+        url_username: "{{ lookup('env','API_USERNAME') }}"
+        url_password: "{{ lookup('env','API_PASSWORD') }}"
+        validate_certs: False
+        method: "POST"
+        body_format: json
+        body: "{{ lookup('file','dt_remove.json') }}"
+        return_content: True
+        headers:
+          Accept: "application/json"
+      register: r_uri
+      delegate_to: "{{ item }}"
+      delegate_facts: True
+      loop: "{{ groups['icinga2_server'] }}"
+
+    - name: "[set-stats] Playbook 2 - DEBUG"
+      debug:
+        var: r_uri.results[0].json.results[0]
