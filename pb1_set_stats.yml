@@ -1,6 +1,8 @@
 ---
 - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
-  hosts: all
+  #hosts: all
+  hosts: localhost
+  connection: local
   gather_facts: False
   
   tasks:
