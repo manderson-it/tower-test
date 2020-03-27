@@ -40,8 +40,8 @@
 
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
-        var: r_uri.result
+        var: r_uri.results
         
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
-        var: r_uri.results.json
+        var: r_uri.results[0].json
