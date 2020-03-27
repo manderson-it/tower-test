@@ -1,0 +1,17 @@
+---
+- name: "[SNOW] - email to work_notes"
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+  - name: "[SNOW] - email to work_notes"
+    mail:
+      host: "{{ lookup('env','MAIL_HOST') }}"
+      username: "{{ lookup('env','MAIL_USERNAME') }}"
+      password: "{{ lookup('env','MAIL_PASSWORD') }}"
+      port: 587
+      from: "chefkoch666@pepisandbox.com"
+      to: "marek.anderson@arctiq.ca"
+      subject: "Re: {{ snow_cr }}" # "Re: Change Request {{ snow_cr }} notification"
+      body: "Hey, I am Ansible Tower. {{ snow_ref | default('') }}"
