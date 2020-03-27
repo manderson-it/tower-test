@@ -22,7 +22,8 @@
 
     - name: "[set-stats] Playbook 1 - Create downtime and get downtime_id"
       uri:
-        url: http://op-icinga2-server.manderson-it.team.arctiq.ca:5665/v1/actions/schedule-downtime
+        #url: http://op-icinga2-server.manderson-it.team.arctiq.ca:5665/v1/actions/schedule-downtime
+        url: https://localhost:5665/v1/actions/schedule-downtime
         url_username: "{{ lookup('env','API_USERNAME') }}"
         url_password: "{{ lookup('env','API_PASSWORD') }}"
         validate_certs: False
@@ -35,9 +36,9 @@
         headers:
           Accept: "application/json"
       register: r_uri
-      #delegate_to: "{{ item }}"
-      #delegate_facts: True
-      #loop: "{{ groups['icinga2_server'] }}"
+      delegate_to: "{{ item }}"
+      delegate_facts: True
+      loop: "{{ groups['icinga2_server'] }}"
 
     - name: "[set-stats] Playbook 1 - DEBUG"
       debug:
