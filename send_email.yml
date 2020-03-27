@@ -11,7 +11,8 @@
       username: "{{ lookup('env','MAIL_USERNAME') }}"
       password: "{{ lookup('env','MAIL_PASSWORD') }}"
       port: 587
-      from: "chefkoch666@pepisandbox.com"
+      #from: "chefkoch666@pepisandbox.com"
+      from: "marek.anderson@arctiq.ca"
       to: "marek.anderson@arctiq.ca"
       subject: "Re: {{ snow_cr }}" # "Re: Change Request {{ snow_cr }} notification"
       body: "Hey, I am Ansible Tower. {{ snow_ref | default('') }}"
