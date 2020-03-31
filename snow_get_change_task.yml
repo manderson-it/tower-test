@@ -2,14 +2,14 @@
 - name: Test Servicenow integration
   hosts: localhost
   connection: local
-  gather_facts: true
+  gather_facts: False
   vars_files:
     - vars/snow_vars.yml
   vars:
     chgtasksysid: "634a47eddb200010f5940181ca961902"
+    snow_chgtask: CTASK0010001
 
   tasks:
-#634a47eddb200010f5940181ca961902
 # fails
   - name: Get existing change task by CTASK number (typically NON-unique!!!)
     snow_record:
@@ -18,7 +18,7 @@
       instance: "{{ snow_instance }}"
       number: "{{ snow_chgtask }}"
       #lookup_field: change_request
-      table: change_task # this refers to the Service Catalog task table and is something entirely different
+      table: change_task
       state: present
       data:
         limit: 1
