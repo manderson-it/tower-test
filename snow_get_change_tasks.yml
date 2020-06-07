@@ -1,5 +1,5 @@
 ---
-- name: "[SNOW] - Query a Change Task number (this fails)"
+- name: "[SNOW] - Find multiple records (Ansible >= 2.9)"
   hosts: localhost
   connection: local
   gather_facts: False
@@ -7,18 +7,20 @@
     snow_chgtask: CTASK0010001
 
   tasks:
-  - name: "[SNOW] Get change task with CTASK number (typically not unique)"
-    snow_record:
+  - name: "[SNOW] - Get existing change task by CTASK number (typically not unique)"
+    snow_record_find:
       username: "{{ lookup('env','SN_USERNAME') }}"
       password: "{{ lookup('env','SN_PASSWORD') }}"
       instance: "{{ lookup('env','SN_INSTANCE') }}"
-      number: "{{ snow_chgtask }}"
       table: change_task
-      state: present
-      data:
-        limit: 1
+      query:
+        number: "{{ snow_chgtask }}"
+      return_fields:
+      - number
+      - sys_id
+      - short_description
     register: chgtask
 
   - name: debug - chgtask data
     debug:
-      var: chgtask.record.short_description
+      var: chgtask.record

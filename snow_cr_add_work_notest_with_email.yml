@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: False
+  vars:
+    snow_ref: "Ref:MSG0000062_118fL7liW22H9bIWUcPT"
   
   tasks:
   - name: "[SNOW] - email to work_notes"
@@ -11,8 +13,7 @@
       username: "{{ lookup('env','MAIL_USERNAME') }}"
       password: "{{ lookup('env','MAIL_PASSWORD') }}"
       port: 587
-      #from: "chefkoch666@pepisandbox.com"
       from: "marek.anderson@arctiq.ca"
-      to: "dev100866@servicenowdevelopers.com"
-      subject: "Re: {{ snow_cr }}" # "Re: Change Request {{ snow_cr }} notification"
-      body: "Hey, I am Ansible Tower. {{ snow_ref | default('') }}"
+      to: "dev97567@servicenowdevelopers.com"
+      subject: "Re: {{ snow_cr | default('CHG0030001', true) }}"
+      body: "Hey, I am Ansible Tower 3.6. {{ snow_ref | default('', true) }}"

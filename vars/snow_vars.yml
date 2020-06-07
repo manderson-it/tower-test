@@ -2,12 +2,12 @@
 # vars file for Servicenow testing
 
 # credentials
-snow_instance: dev100866
+snow_instance: dev97567
 snow_user: admin
-snow_pw: ""
+snow_pw: "ServiceNow2020"
 
 # REST API
-snow_url: "https://dev100866.service-now.com"
+snow_url: "https://dev97567.service-now.com"
 # the next two lines are from a specific API instead of the Table API
 #snow_api_create_chgreq: "/api/sn_chg_rest/v1/change/normal"
 #snow_api_get_chgreq: "/api/sn_chg_rest/v1/change/normal?sysparm_query=number="

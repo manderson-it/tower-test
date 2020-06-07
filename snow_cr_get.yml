@@ -1,5 +1,5 @@
 ---
-- name: "[SNOW] - Add work_notes to CR"
+- name: "[SNOW] - Query a Change Request"
   hosts: localhost
   connection: local
   gather_facts: False
@@ -15,15 +15,16 @@
       fail_msg: "snow_cr undefined or not 10 chars long"
       success_msg: "All required variables are defined"
       
-  - name: "[SNOW] - Add work_notes to CR"
+  - name: "[SNOW] - Query a Change Request (Ansible >= 2.5)"
     snow_record:
+      username: "{{ lookup('env','SN_USERNAME') }}"
+      password: "{{ lookup('env','SN_PASSWORD') }}"
+      instance: "{{ lookup('env','SN_INSTANCE') }}"
       number: "{{ snow_cr | default('CHG0030001', true)}}"
       state: present
       table: change_request
-      data:
-        work_notes: "Updated by {{ tower_job_template_name | default('undefined') }} job ID {{ tower_job_id | default('undefined') }}"
     register: r_cr
 
   - name: "[SNOW] - DEBUG CR"
     debug:
-      var: r_cr
+      var: r_cr.record.short_description
